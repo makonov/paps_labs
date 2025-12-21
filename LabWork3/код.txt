@@ -1,0 +1,572 @@
+" ============================================
+" СИСТЕМА РАСЧЁТА ЗАТРАТ - ПРИНЦИПЫ SOLID, KISS, DRY, YAGNI
+" ============================================
+
+" ===== 1. ИНТЕРФЕЙСЫ (SOLID: ISP, DIP, OCP) =====
+
+INTERFACE zif_calculator.                     " ISP: отдельный интерфейс
+  METHODS:
+    calculate RETURNING VALUE(rv_result) TYPE string,
+    validate_parameters RETURNING VALUE(rv_valid) TYPE abap_bool.
+ENDINTERFACE.
+
+INTERFACE zif_data_provider.                  " ISP: отдельный интерфейс
+  METHODS:
+    get_data RETURNING VALUE(rt_data) TYPE STANDARD TABLE,
+    get_data_count RETURNING VALUE(rv_count) TYPE i.
+ENDINTERFACE.
+
+INTERFACE zif_filter.                         " ISP + OCP: интерфейс для фильтров
+  METHODS:
+    apply IMPORTING it_data TYPE STANDARD TABLE
+          RETURNING VALUE(rt_filtered_data) TYPE STANDARD TABLE.
+ENDINTERFACE.
+
+" ===== 2. БАЗОВЫЙ КЛАСС (SOLID: LSP, DRY) =====
+
+CLASS zcl_base_service DEFINITION ABSTRACT.   " DRY + LSP
+  PUBLIC SECTION.
+    METHODS:
+      validate_input IMPORTING iv_input TYPE string
+                     RETURNING VALUE(rv_valid) TYPE abap_bool,
+      
+      log_message IMPORTING iv_message TYPE string,
+      
+      get_current_date RETURNING VALUE(rv_date) TYPE dats.
+  PROTECTED SECTION.
+    DATA:
+      mv_service_name TYPE string VALUE 'BaseService'.
+ENDCLASS.
+
+CLASS zcl_base_service IMPLEMENTATION.
+  METHOD validate_input.
+    rv_valid = COND #( WHEN iv_input IS NOT INITIAL THEN abap_true
+                       ELSE abap_false ).
+  ENDMETHOD.
+  
+  METHOD log_message.
+    WRITE: / |[{ mv_service_name }] { iv_message }|.  " KISS
+  ENDMETHOD.
+  
+  METHOD get_current_date.
+    rv_date = sy-datum.
+  ENDMETHOD.
+ENDCLASS.
+
+" ===== 3. КЛАССЫ ДАННЫХ (SOLID: SRP) =====
+
+CLASS zcl_employee DEFINITION.                " SRP: только данные
+  PUBLIC SECTION.
+    METHODS:
+      constructor IMPORTING iv_id TYPE string
+                            iv_first_name TYPE string
+                            iv_last_name TYPE string,
+      
+      get_full_name RETURNING VALUE(rv_name) TYPE string.
+    
+    DATA:
+      id          TYPE string,
+      first_name  TYPE string,
+      last_name   TYPE string,
+      date_from   TYPE dats,
+      date_to     TYPE dats.
+ENDCLASS.
+
+CLASS zcl_employee IMPLEMENTATION.
+  METHOD constructor.
+    me->id = iv_id.
+    me->first_name = iv_first_name.
+    me->last_name = iv_last_name.
+    me->date_from = sy-datum.
+  ENDMETHOD.
+  
+  METHOD get_full_name.
+    rv_name = |{ first_name } { last_name }|.  " KISS
+  ENDMETHOD.
+ENDCLASS.
+
+CLASS zcl_position DEFINITION.                " SRP: только данные
+  PUBLIC SECTION.
+    DATA:
+      id       TYPE string,
+      name     TYPE string,
+      category TYPE string.
+ENDCLASS.
+
+CLASS zcl_project DEFINITION.                 " SRP: только данные
+  PUBLIC SECTION.
+    DATA:
+      id           TYPE string,
+      name         TYPE string,
+      ets_project  TYPE string,
+      end_date     TYPE dats.
+ENDCLASS.
+
+CLASS zcl_rate_data DEFINITION.               " SRP: только данные
+  PUBLIC SECTION.
+    DATA:
+      id               TYPE string,
+      position_id      TYPE string,
+      calculation_date TYPE dats,
+      value            TYPE p DECIMALS 2.
+ENDCLASS.
+
+CLASS zcl_work_data DEFINITION.               " SRP: только данные
+  PUBLIC SECTION.
+    DATA:
+      id          TYPE string,
+      employee_id TYPE string,
+      project_id  TYPE string,
+      work_date   TYPE dats,
+      hours       TYPE p DECIMALS 2,
+      is_billable TYPE abap_bool.
+ENDCLASS.
+
+" ===== 4. СЕРВИСЫ (SOLID: SRP, OCP, DIP) =====
+
+CLASS zcl_rate_calculation DEFINITION         " SRP: только расчёт ставок
+  INHERITING FROM zcl_base_service.
+  
+  PUBLIC SECTION.
+    INTERFACES: zif_calculator.
+    
+    METHODS:
+      constructor IMPORTING io_data_provider TYPE REF TO zif_data_provider,
+      
+      get_rate_for_position
+        IMPORTING iv_position_id TYPE string
+                  iv_date        TYPE dats DEFAULT sy-datum
+        RETURNING VALUE(rv_rate) TYPE p,
+      
+      set_rate_multiplier IMPORTING iv_multiplier TYPE p.
+  
+  PRIVATE SECTION.
+    DATA:
+      mo_data_provider TYPE REF TO zif_data_provider,
+      mv_rate_multiplier TYPE p VALUE '1.0'.
+ENDCLASS.
+
+CLASS zcl_rate_calculation IMPLEMENTATION.
+  METHOD constructor.
+    super->constructor( ).
+    mv_service_name = 'RateCalculation'.
+    mo_data_provider = io_data_provider.      " DIP
+  ENDMETHOD.
+  
+  METHOD zif_calculator~calculate.
+    " KISS: простая логика
+    DATA(lt_data) = mo_data_provider->get_data( ).
+    rv_result = |Рассчитано { lines( lt_data ) } ставок|.
+    
+    log_message( rv_result ).  " DRY: используем метод из родителя
+  ENDMETHOD.
+  
+  METHOD zif_calculator~validate_parameters.
+    rv_valid = abap_true.  " YAGNI: базовая валидация
+  ENDMETHOD.
+  
+  METHOD get_rate_for_position.
+    " DRY + KISS
+    IF validate_input( iv_position_id ) = abap_false.
+      log_message( 'Ошибка: неверный ID позиции' ).
+      RETURN.
+    ENDIF.
+    
+    " Простой расчёт
+    rv_rate = 100 * 8 * mv_rate_multiplier.
+  ENDMETHOD.
+  
+  METHOD set_rate_multiplier.
+    mv_rate_multiplier = iv_multiplier.
+  ENDMETHOD.
+ENDCLASS.
+
+CLASS zcl_work_calculation DEFINITION         " SRP: только расчёт трудозатрат
+  INHERITING FROM zcl_base_service.
+  
+  PUBLIC SECTION.
+    INTERFACES: zif_calculator.
+    
+    METHODS:
+      constructor IMPORTING io_rate_calculator TYPE REF TO zif_calculator
+                            io_data_provider   TYPE REF TO zif_data_provider,
+      
+      calculate_with_rates
+        IMPORTING iv_employee_id TYPE string OPTIONAL
+                  iv_project_id  TYPE string OPTIONAL
+        RETURNING VALUE(rt_results) TYPE string_table,
+      
+      get_total_cost
+        IMPORTING iv_project_id TYPE string
+        RETURNING VALUE(rv_cost) TYPE p.
+  
+  PRIVATE SECTION.
+    DATA:
+      mo_rate_calculator TYPE REF TO zif_calculator,  " DIP
+      mo_data_provider   TYPE REF TO zif_data_provider.
+ENDCLASS.
+
+CLASS zcl_work_calculation IMPLEMENTATION.
+  METHOD constructor.
+    super->constructor( ).
+    mv_service_name = 'WorkCalculation'.
+    mo_rate_calculator = io_rate_calculator.  " DIP
+    mo_data_provider = io_data_provider.
+  ENDMETHOD.
+  
+  METHOD zif_calculator~calculate.
+    " DIP: используем через интерфейс
+    DATA(lv_rate_info) = mo_rate_calculator->calculate( ).
+    rv_result = |Расчёт трудозатрат ({ get_current_date( ) })|.
+    
+    log_message( |Использованы ставки: { lv_rate_info }| ).
+  ENDMETHOD.
+  
+  METHOD zif_calculator~validate_parameters.
+    rv_valid = abap_true.  " YAGNI
+  ENDMETHOD.
+  
+  METHOD calculate_with_rates.
+    " KISS: простой цикл
+    DATA(lt_data) = mo_data_provider->get_data( ).
+    
+    LOOP AT lt_data ASSIGNING FIELD-SYMBOL(<ls_data>).
+      IF ( iv_employee_id IS INITIAL OR <ls_data>-employee_id = iv_employee_id ) AND
+         ( iv_project_id IS INITIAL OR <ls_data>-project_id = iv_project_id ).
+        
+        APPEND |{ <ls_data>-employee_id }: { <ls_data>-hours }ч| TO rt_results.
+      ENDIF.
+    ENDLOOP.
+  ENDMETHOD.
+  
+  METHOD get_total_cost.
+    " YAGNI: только необходимый расчёт
+    DATA(lt_data) = mo_data_provider->get_data( ).
+    
+    LOOP AT lt_data ASSIGNING FIELD-SYMBOL(<ls_data>)
+                    WHERE project_id = iv_project_id.
+      rv_cost = rv_cost + <ls_data>-hours * 100.  " Упрощённый расчёт
+    ENDLOOP.
+  ENDMETHOD.
+ENDCLASS.
+
+" ===== 5. ФИЛЬТРЫ (SOLID: OCP, SRP, ISP) =====
+
+CLASS zcl_date_filter DEFINITION IMPLEMENTING zif_filter.  " OCP: новая реализация
+  PUBLIC SECTION.
+    METHODS:
+      constructor IMPORTING iv_from_date TYPE dats
+                            iv_to_date   TYPE dats,
+      
+      zif_filter~apply REDEFINITION.
+  
+  PRIVATE SECTION.
+    DATA:
+      mv_from_date TYPE dats,
+      mv_to_date   TYPE dats.
+ENDCLASS.
+
+CLASS zcl_date_filter IMPLEMENTATION.
+  METHOD constructor.
+    mv_from_date = iv_from_date.
+    mv_to_date = iv_to_date.
+  ENDMETHOD.
+  
+  METHOD zif_filter~apply.
+    " Фильтрация по дате
+    LOOP AT it_data ASSIGNING FIELD-SYMBOL(<ls_data>).
+      IF <ls_data>-work_date BETWEEN mv_from_date AND mv_to_date.
+        APPEND <ls_data> TO rt_filtered_data.
+      ENDIF.
+    ENDLOOP.
+  ENDMETHOD.
+ENDCLASS.
+
+CLASS zcl_project_filter DEFINITION IMPLEMENTING zif_filter.  " OCP: другая реализация
+  PUBLIC SECTION.
+    METHODS:
+      constructor IMPORTING iv_project_id TYPE string,
+      
+      zif_filter~apply REDEFINITION.
+  
+  PRIVATE SECTION.
+    DATA:
+      mv_project_id TYPE string.
+ENDCLASS.
+
+CLASS zcl_project_filter IMPLEMENTATION.
+  METHOD constructor.
+    mv_project_id = iv_project_id.
+  ENDMETHOD.
+  
+  METHOD zif_filter~apply.
+    " Фильтрация по проекту
+    LOOP AT it_data ASSIGNING FIELD-SYMBOL(<ls_data>).
+      IF <ls_data>-project_id = mv_project_id.
+        APPEND <ls_data> TO rt_filtered_data.
+      ENDIF.
+    ENDLOOP.
+  ENDMETHOD.
+ENDCLASS.
+
+" ===== 6. ПРОВАЙДЕРЫ ДАННЫХ (SOLID: SRP, OCP, DIP) =====
+
+CLASS zcl_sap_data_provider DEFINITION IMPLEMENTING zif_data_provider.
+  PUBLIC SECTION.
+    METHODS:
+      constructor IMPORTING iv_data_source TYPE string,
+      
+      set_filter IMPORTING io_filter TYPE REF TO zif_filter,  " OCP + DIP
+      
+      get_filtered_data RETURNING VALUE(rt_data) TYPE STANDARD TABLE.
+  
+  PRIVATE SECTION.
+    DATA:
+      mv_data_source TYPE string,
+      mo_filter      TYPE REF TO zif_filter.
+ENDCLASS.
+
+CLASS zcl_sap_data_provider IMPLEMENTATION.
+  METHOD constructor.
+    mv_data_source = iv_data_source.
+  ENDMETHOD.
+  
+  METHOD zif_data_provider~get_data.
+    " KISS: заглушка данных
+    DATA: ls_data TYPE zcl_work_data.
+    
+    DO 5 TIMES.
+      ls_data-id = |EMP{ sy-index }|.
+      ls_data-employee_id = |EMP{ sy-index }|.
+      ls_data-project_id = |PRJ{ sy-index MOD 2 + 1 }|.
+      ls_data-work_date = sy-datum - sy-index.
+      ls_data-hours = 8 * ( sy-index MOD 3 + 1 ).
+      ls_data-is_billable = COND #( WHEN sy-index MOD 2 = 0 THEN abap_true
+                                    ELSE abap_false ).
+      
+      APPEND ls_data TO rt_data.
+    ENDDO.
+  ENDMETHOD.
+  
+  METHOD zif_data_provider~get_data_count.
+    DATA(lt_data) = me->get_data( ).
+    rv_count = lines( lt_data ).
+  ENDMETHOD.
+  
+  METHOD set_filter.
+    mo_filter = io_filter.  " OCP: можем установить ЛЮБОЙ фильтр
+  ENDMETHOD.
+  
+  METHOD get_filtered_data.
+    DATA(lt_raw_data) = me->get_data( ).
+    
+    IF mo_filter IS BOUND.
+      rt_data = mo_filter->apply( lt_raw_data ).  " OCP в действии!
+    ELSE.
+      rt_data = lt_raw_data.
+    ENDIF.
+  ENDMETHOD.
+ENDCLASS.
+
+" ===== 7. ФАБРИКА (SOLID: OCP, DIP, SRP) =====
+
+CLASS zcl_calculator_factory DEFINITION.
+  PUBLIC SECTION.
+    CLASS-METHODS:
+      create_calculator
+        IMPORTING
+          iv_calculator_type TYPE string DEFAULT 'RATE'
+          io_data_provider   TYPE REF TO zif_data_provider OPTIONAL
+        RETURNING
+          VALUE(ro_calculator) TYPE REF TO zif_calculator,  " DIP: возвращает интерфейс
+      
+      create_data_provider
+        IMPORTING
+          iv_source_type TYPE string DEFAULT 'SAP'
+          iv_source_name TYPE string DEFAULT 'ZHR01DS01'
+        RETURNING
+          VALUE(ro_provider) TYPE REF TO zif_data_provider.  " DIP
+ENDCLASS.
+
+CLASS zcl_calculator_factory IMPLEMENTATION.
+  METHOD create_calculator.
+    " OCP: можно добавлять новые типы без изменения этого метода
+    CASE iv_calculator_type.
+      WHEN 'RATE'.
+        ro_calculator = NEW zcl_rate_calculation( io_data_provider ).
+      WHEN 'WORK'.
+        DATA(lo_rate_calc) = NEW zcl_rate_calculation( io_data_provider ).
+        ro_calculator = NEW zcl_work_calculation(
+          io_rate_calculator = lo_rate_calc
+          io_data_provider   = io_data_provider
+        ).
+      WHEN OTHERS.
+        " Можно добавить: 'BONUS', 'TAX', 'OVERTIME' - БЕЗ изменения кода!
+    ENDCASE.
+  ENDMETHOD.
+  
+  METHOD create_data_provider.
+    " OCP: можно добавлять новые провайдеры
+    CASE iv_source_type.
+      WHEN 'SAP'.
+        ro_provider = NEW zcl_sap_data_provider( iv_source_name ).
+      " WHEN 'FILE'.   " ← Можно добавить
+      "   ro_provider = NEW zcl_file_data_provider( ).
+      " WHEN 'API'.    " ← Можно добавить
+      "   ro_provider = NEW zcl_api_data_provider( ).
+    ENDCASE.
+  ENDMETHOD.
+ENDCLASS.
+
+" ===== 8. ГЛАВНОЕ ПРИЛОЖЕНИЕ (KISS) =====
+
+CLASS zcl_cost_calculation_app DEFINITION.
+  PUBLIC SECTION.
+    METHODS:
+      run_demo,
+      
+      demo_solid_principles.
+  
+  PRIVATE SECTION.
+    METHODS:
+      demo_ocp_with_filters,
+      demo_dip_with_interfaces,
+      demo_dry_with_base_class.
+ENDCLASS.
+
+CLASS zcl_cost_calculation_app IMPLEMENTATION.
+  METHOD run_demo.
+    WRITE: / '=== ДЕМОНСТРАЦИЯ СИСТЕМЫ РАСЧЁТА ЗАТРАТ ==='.
+    
+    " KISS: простая последовательность
+    demo_dip_with_interfaces( ).
+    demo_ocp_with_filters( ).
+    demo_dry_with_base_class( ).
+    
+    WRITE: / '=== ДЕМОНСТРАЦИЯ ЗАВЕРШЕНА ==='.
+  ENDMETHOD.
+  
+  METHOD demo_solid_principles.
+    WRITE: / '=== ПРИНЦИПЫ SOLID В ДЕЙСТВИИ ==='.
+    
+    " 1. SRP - каждый класс делает одно дело
+    DATA(lo_employee) = NEW zcl_employee(
+      iv_id = 'EMP001'
+      iv_first_name = 'Иван'
+      iv_last_name = 'Иванов'
+    ).
+    WRITE: / 'SRP: zcl_employee - только данные сотрудника'.
+    
+    " 2. OCP - открыто для расширения
+    DATA(lo_data_provider) = NEW zcl_sap_data_provider( 'ZHR01DS01' ).
+    
+    " Можно использовать разные фильтры БЕЗ изменения провайдера
+    lo_data_provider->set_filter( NEW zcl_date_filter(
+      iv_from_date = '20240101'
+      iv_to_date   = '20241231'
+    ) ).
+    
+    lo_data_provider->set_filter( NEW zcl_project_filter( 'PRJ001' ) ).
+    WRITE: / 'OCP: Можно добавлять новые фильтры без изменения кода'.
+    
+    " 3. LSP - взаимозаменяемость
+    DATA: lo_calculator TYPE REF TO zif_calculator.
+    
+    lo_calculator = NEW zcl_rate_calculation( lo_data_provider ).
+    lo_calculator = NEW zcl_work_calculation(
+      io_rate_calculator = lo_calculator
+      io_data_provider   = lo_data_provider
+    ).
+    WRITE: / 'LSP: Калькуляторы взаимозаменяемы через интерфейс'.
+    
+    " 4. ISP - раздельные интерфейсы
+    WRITE: / 'ISP: zif_calculator, zif_data_provider, zif_filter - отдельные интерфейсы'.
+    
+    " 5. DIP - инверсия зависимостей
+    DATA(lo_work_calc) = NEW zcl_work_calculation(
+      io_rate_calculator = NEW zcl_rate_calculation( lo_data_provider )
+      io_data_provider   = lo_data_provider
+    ).
+    WRITE: / 'DIP: Зависимости через интерфейсы, а не конкретные классы'.
+  ENDMETHOD.
+  
+  METHOD demo_ocp_with_filters.
+    WRITE: / '--- OCP: Работа с фильтрами ---'.
+    
+    DATA(lo_provider) = NEW zcl_sap_data_provider( 'TEST' ).
+    
+    " OCP: Используем разные фильтры через один интерфейс
+    lo_provider->set_filter( NEW zcl_date_filter(
+      iv_from_date = '20240101'
+      iv_to_date   = '20240630'
+    ) ).
+    
+    DATA(lt_filtered_data) = lo_provider->get_filtered_data( ).
+    WRITE: / 'Отфильтровано записей по дате:', lines( lt_filtered_data ).
+    
+    " OCP: Меняем фильтр без изменения кода
+    lo_provider->set_filter( NEW zcl_project_filter( 'PRJ001' ) ).
+    lt_filtered_data = lo_provider->get_filtered_data( ).
+    WRITE: / 'Отфильтровано записей по проекту:', lines( lt_filtered_data ).
+  ENDMETHOD.
+  
+  METHOD demo_dip_with_interfaces.
+    WRITE: / '--- DIP: Инверсия зависимостей ---'.
+    
+    " Создаём через фабрику (DIP)
+    DATA(lo_data_provider) = zcl_calculator_factory=>create_data_provider( ).
+    DATA(lo_rate_calc) = zcl_calculator_factory=>create_calculator(
+      iv_calculator_type = 'RATE'
+      io_data_provider   = lo_data_provider
+    ).
+    
+    DATA(lo_work_calc) = zcl_calculator_factory=>create_calculator(
+      iv_calculator_type = 'WORK'
+      io_data_provider   = lo_data_provider
+    ).
+    
+    WRITE: / 'Создано через фабрику: RateCalculator и WorkCalculator'.
+    
+    " DIP в действии: work_calc зависит от rate_calc через интерфейс
+    DATA(lv_result) = lo_work_calc->calculate( ).
+    WRITE: / 'Результат WorkCalculator:', lv_result.
+  ENDMETHOD.
+  
+  METHOD demo_dry_with_base_class.
+    WRITE: / '--- DRY: Переиспользование кода ---'.
+    
+    DATA(lo_rate_service) = NEW zcl_rate_calculation(
+      NEW zcl_sap_data_provider( 'TEST' )
+    ).
+    
+    DATA(lo_work_service) = NEW zcl_work_calculation(
+      io_rate_calculator = lo_rate_service
+      io_data_provider   = NEW zcl_sap_data_provider( 'TEST' )
+    ).
+    
+    " Оба используют методы из базового класса
+    lo_rate_service->log_message( 'Сообщение из RateCalculator' ).
+    lo_work_service->log_message( 'Сообщение из WorkCalculator' ).
+    
+    WRITE: / 'DRY: validate_input и log_message переиспользуются из базового класса'.
+  ENDMETHOD.
+ENDCLASS.
+
+" ===== 9. ТОЧКА ВХОДА (KISS, YAGNI) =====
+
+REPORT zhr_cost_calculation_solid.
+
+START-OF-SELECTION.
+  " KISS: максимально просто
+  DATA(lo_app) = NEW zcl_cost_calculation_app( ).
+  
+  lo_app->run_demo( ).
+  
+  SKIP 2.
+  lo_app->demo_solid_principles( ).
+  
+  WRITE: /.
+  WRITE: / '=== KISS, DRY, YAGNI также соблюдены ==='.
+  WRITE: / 'KISS: Простые методы, понятная структура'.
+  WRITE: / 'DRY:  Общая логика в базовом классе'.
+  WRITE: / 'YAGNI: Только необходимая функциональность'.
