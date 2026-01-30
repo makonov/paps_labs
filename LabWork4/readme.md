@@ -277,7 +277,7 @@ pm.test("В объекте ровно 5 полей (нет лишних)", funct
     pm.expect(Object.keys(jsonData).length).to.equal(5);
 });
 ```
-![2-1-2](./PostmanScreens/1-1-2.png)
+![2-1-2](./PostmanScreens/2-1-2.png)
 
 **Тест 2.2 — Запрос несуществующей конференции (id = 9999)**  
 **Строка запроса**: GET https://localhost:7123/api/v1/conferences/9999
@@ -288,7 +288,7 @@ pm.test("В объекте ровно 5 полей (нет лишних)", funct
 - Authorization: отсутствует (публичный эндпоинт)
 - Params: нет (id передается в пути)
 
-![2-2-1](./PostmanScreens/2-1-1.png)
+![2-2-1](./PostmanScreens/2-2-1.png)
 Полученный ответ:
 Status: 400 Not Found
 Body:
@@ -317,4 +317,4 @@ pm.test("Есть сообщение об ошибке", function () {
     pm.expect(jsonData.message).to.include("Конференция не найдена");
 });
 ```
-![2-2-2](./PostmanScreens/1-1-2.png)
+![2-2-2](./PostmanScreens/2-2-2.png)
