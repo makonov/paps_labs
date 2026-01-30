@@ -52,8 +52,7 @@
    ```json
    {
      "error": "validation_failed",
-     "message": "Поле 'start_time' должно быть позже текущего времени",
-     "details": { "start_time": "invalid value" }
+     "message": "Поле 'start_time' должно быть позже текущего времени"
    }
    ```
    Плюс соответствующий HTTP-статус (400, 401, 403, 404, 409 и т.д.). Это сильно упрощает обработку ошибок на фронте.
@@ -74,8 +73,126 @@
 11. **Поддержка пагинации и фильтров в списках**
     Для коллекций (доклады, голоса, участники) используются query-параметры: ?page=1&limit=20&sort=start_time&filter[speaker_id]=123
     Это необходимо, потому что на крупных конференциях может быть 200+ докладов.
-    
-12. **Устойчивость к повторным запросам операций PUT и DELETE**
-    Повторный PUT с теми же данными не меняет состояние.
-    Повторный DELETE уже удалённого ресурса возвращает 204 (No Content), а не ошибку.
-    Это делает API более надёжным при сетевых сбоях и повторных запросах от клиента.
+
+## Тестирование API
+
+Тестирование проводилось с помощью Postman.  
+Для всех защищённых запросов сначала выполнялся POST /auth/login с нужной ролью, токен сохранялся в переменную окружения `jwt_token` и использовался в формате `Bearer {{jwt_token}}`.
+
+### 1. POST /auth/login — Получение JWT-токена
+
+**Тестируемое API**: /auth/login  
+**Метод**: POST  
+
+**Реализация**:
+```C#
+private readonly string _secret = "kJ9pL2mX8qW3rT5vY7zA0bC4dF6gH8jN1kP3mQ5sU7wX9yZ2!@ConferenceLab#2025";
+
+[HttpPost("login")]
+public IActionResult Login([FromBody] LoginRequest request)
+{
+    // Очень упрощённая проверка (в реале — БД + хэш)
+    if (request.Username != "user" || request.Password != "pass")
+        return Unauthorized(new { error = "invalid_credentials", message = "Неверный логин или пароль" });
+
+    var claims = new[]
+    {
+        new Claim(ClaimTypes.Name, request.Username),
+        new Claim(ClaimTypes.Role, request.Role)
+    };
+
+    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secret));
+    var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+    var token = new JwtSecurityToken(
+        claims: claims,
+        expires: DateTime.Now.AddHours(1),
+        signingCredentials: creds);
+
+    return Ok(new JwtResponse { AccessToken = new JwtSecurityTokenHandler().WriteToken(token) });
+}
+```
+
+**Тест 1.1 — Успешная авторизация (роль organizer)**  
+**Строка запроса**: POST https://localhost:7212/auth/login
+
+**Передаваемые данные (Body — raw JSON)**:
+```json
+{
+  "username": "user",
+  "password": "pass",
+  "role": "organizer"
+}
+```
+Заголовки и параметры:
+- Headers: Content-Type: application/json
+- Authorization: отсутствует (публичный эндпоинт)
+- Params: нет
+
+![1-1-1](../1-1-1.png)
+
+Полученный ответ:
+Status: 200 OK
+Body:
+```json
+{
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidXNlciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6Im9yZ2FuaXplciIsImV4cCI6MTc2OTc5NjIwNn0._AcZkk2SuCTogU3GeXMPXXOuIvNuTLx1tRTeWK9nWXs"
+}
+```
+
+Код автотестов:
+```js
+pm.test("Статус 200 OK", function () {
+    pm.response.to.have.status(200);
+});
+
+pm.test("Есть accessToken", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData).to.have.property("accessToken");
+    pm.environment.set("jwt_token", jsonData.accessToken);
+});
+```
+![1-1-2](../1-1-2.png)
+![1-1-3](../1-1-3.png)
+
+**Тест 1.2 — Ошибка авторизации (неверный пароль)**  
+**Строка запроса**: POST https://localhost:7212/auth/login
+
+**Передаваемые данные (Body — raw JSON)**:
+```json
+{
+  "username": "user",
+  "password": "wrongpass",
+  "role": "organizer"
+}
+```
+Заголовки и параметры:
+- Headers: Content-Type: application/json
+- Authorization: отсутствует (публичный эндпоинт)
+- Params: нет
+
+![1-1-1](../1-1-1.png)
+
+Полученный ответ:
+Status: 401 Unauthorized
+Body:
+```json
+{
+    "error": "invalid_credentials",
+    "message": "Неверный логин или пароль"
+}
+```
+
+Код автотестов:
+```js
+pm.test("Статус 401", function () {
+    pm.response.to.have.status(401);
+});
+
+pm.test("Ошибка invalid_credentials", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData.error).to.equal("invalid_credentials");
+});
+```
+![1-1-2](../1-1-2.png)
+![1-1-3](../1-1-3.png)
