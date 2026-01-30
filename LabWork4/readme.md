@@ -151,7 +151,7 @@ pm.test("Есть accessToken", function () {
     pm.environment.set("jwt_token", jsonData.accessToken);
 });
 ```
-![1-1-3](./PostmanScreens/1-1-3.png)
+![1-1-2](./PostmanScreens/1-1-2.png)
 
 **Тест 1.2 — Ошибка авторизации (неверный пароль)**  
 **Строка запроса**: POST https://localhost:7212/auth/login
@@ -169,7 +169,7 @@ pm.test("Есть accessToken", function () {
 - Authorization: отсутствует (публичный эндпоинт)
 - Params: нет
 
-![1-1-1](./PostmanScreens/1-1-1.png)
+![1-2-1](./PostmanScreens/1-2-1.png)
 
 Полученный ответ:
 Status: 401 Unauthorized
@@ -192,7 +192,7 @@ pm.test("Ошибка invalid_credentials", function () {
     pm.expect(jsonData.error).to.equal("invalid_credentials");
 });
 ```
-![1-1-3](./PostmanScreens/1-1-3.png)
+![1-2-3](./PostmanScreens/1-2-3.png)
 
 
 ### 2. GET /api/v1/conferences/{id} - Получение конкретной конференции
