@@ -125,12 +125,11 @@ public IActionResult Login([FromBody] LoginRequest request)
 }
 ```
 Заголовки и параметры:
-- Headers: Content-Type: application/json
+- Headers: отсутствуют
 - Authorization: отсутствует (публичный эндпоинт)
 - Params: нет
 
-![1-1-1](../1-1-1.png)
-
+![1-1-1](./PostmanScreens/1-1-1.png)
 Полученный ответ:
 Status: 200 OK
 Body:
@@ -152,8 +151,7 @@ pm.test("Есть accessToken", function () {
     pm.environment.set("jwt_token", jsonData.accessToken);
 });
 ```
-![1-1-2](../1-1-2.png)
-![1-1-3](../1-1-3.png)
+![1-1-3](./PostmanScreens/1-1-3.png)
 
 **Тест 1.2 — Ошибка авторизации (неверный пароль)**  
 **Строка запроса**: POST https://localhost:7212/auth/login
@@ -167,11 +165,11 @@ pm.test("Есть accessToken", function () {
 }
 ```
 Заголовки и параметры:
-- Headers: Content-Type: application/json
+- Headers: отсутствуют
 - Authorization: отсутствует (публичный эндпоинт)
 - Params: нет
 
-![1-1-1](../1-1-1.png)
+![1-1-1](./PostmanScreens/1-1-1.png)
 
 Полученный ответ:
 Status: 401 Unauthorized
@@ -194,5 +192,129 @@ pm.test("Ошибка invalid_credentials", function () {
     pm.expect(jsonData.error).to.equal("invalid_credentials");
 });
 ```
-![1-1-2](../1-1-2.png)
-![1-1-3](../1-1-3.png)
+![1-1-3](./PostmanScreens/1-1-3.png)
+
+
+### 2. GET /api/v1/conferences/{id} - Получение конкретной конференции
+**Тестируемое API**: /api/v1/conferences/{id}
+**Метод**: GET  
+
+**Реализация**:
+```C#
+[HttpGet("{id}")]
+[AllowAnonymous]
+public ActionResult<Conference> Get(int id)
+{
+    if (!InMemoryStore.Conferences.TryGetValue(id, out var conf))
+        return NotFound(new ErrorResponse { Error = "not_found", Message = "Конференция не найдена" });
+
+    return Ok(conf);
+}
+```
+
+**Тест 2.1 — Успешное получение существующей конференции**  
+**Строка запроса**: GET https://localhost:7123/api/v1/conferences/1
+
+Передаваемые параметры:
+- Body: отсутствует
+- Headers: отсутствуют
+- Authorization: отсутствует (публичный эндпоинт)
+- Params: нет (id передается в пути)
+
+![2-1-1](./PostmanScreens/2-1-1.png)
+Полученный ответ:
+Status: 200 OK
+Body:
+```json
+{
+    "id": 1,
+    "name": "DevConf Spring 2026",
+    "startDate": "2026-04-15",
+    "endDate": "2026-04-17",
+    "location": "Санкт-Петербург"
+}
+```
+
+Код автотестов:
+```js
+pm.test("Статус ответа 200 OK", function () {
+    pm.response.to.have.status(200);
+});
+
+pm.test("В ответе есть поле id и оно равно 1", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData).to.have.property("id");
+    pm.expect(jsonData.id).to.equal(1);
+});
+
+pm.test("В ответе есть название конференции", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData).to.have.property("name");
+    pm.expect(jsonData.name).to.be.a("string");
+    pm.expect(jsonData.name).to.not.be.empty;
+});
+
+pm.test("Объект конференции имеет ожидаемую структуру и точные значения", function () {
+    var jsonData = pm.response.json();
+
+    pm.expect(jsonData).to.have.all.keys("id", "name", "startDate", "endDate", "location");
+
+    pm.expect(jsonData.id).to.be.a("number");
+    pm.expect(jsonData.name).to.be.a("string");
+    pm.expect(jsonData.startDate).to.be.a("string");
+    pm.expect(jsonData.endDate).to.be.a("string");
+    pm.expect(jsonData.location).to.be.a("string");
+
+    pm.expect(jsonData.id).to.equal(1);
+    pm.expect(jsonData.name).to.equal("DevConf Spring 2026");
+    pm.expect(jsonData.startDate).to.equal("2026-04-15");
+    pm.expect(jsonData.endDate).to.equal("2026-04-17");
+    pm.expect(jsonData.location).to.equal("Санкт-Петербург");
+});
+
+pm.test("В объекте ровно 5 полей (нет лишних)", function () {
+    var jsonData = pm.response.json();
+    pm.expect(Object.keys(jsonData).length).to.equal(5);
+});
+```
+![2-1-2](./PostmanScreens/1-1-2.png)
+
+**Тест 2.2 — Запрос несуществующей конференции (id = 9999)**  
+**Строка запроса**: GET https://localhost:7123/api/v1/conferences/9999
+
+Передаваемые параметры:
+- Body: отсутствует
+- Headers: отсутствуют
+- Authorization: отсутствует (публичный эндпоинт)
+- Params: нет (id передается в пути)
+
+![2-2-1](./PostmanScreens/2-1-1.png)
+Полученный ответ:
+Status: 400 Not Found
+Body:
+```json
+{
+  "error": "not_found",
+  "message": "Конференция не найдена"
+}
+```
+
+Код автотестов:
+```js
+pm.test("Статус ответа 404 Not Found", function () {
+    pm.response.to.have.status(404);
+});
+
+pm.test("В ответе правильный тип ошибки", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData).to.have.property("error");
+    pm.expect(jsonData.error).to.equal("not_found");
+});
+
+pm.test("Есть сообщение об ошибке", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData).to.have.property("message");
+    pm.expect(jsonData.message).to.include("Конференция не найдена");
+});
+```
+![2-2-2](./PostmanScreens/1-1-2.png)
