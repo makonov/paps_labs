@@ -720,7 +720,7 @@ pm.test("Первый доклад имеет ожидаемые значени�
     pm.expect(firstTalk.slides).to.equal("https://slides.com/jwt-asp");
 });
 ```
-![4-1-2](./PostmanScreens/2-1-2.png)
+![4-1-2](./PostmanScreens/4-1-2.png)
 
 **Тест 4.2 — Запрос расписания по несуществующей конференции (id = 9999)**  
 **Строка запроса**: GET https://localhost:7212/api/v1/conferences/9999/schedule
