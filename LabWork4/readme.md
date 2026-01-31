@@ -1161,3 +1161,338 @@ pm.test("Нет поля id в ответе об ошибке", function () {
 ```
 ![6-2-2](./PostmanScreens/6-2-2.png)
 ![6-2-3](./PostmanScreens/6-2-3.png)
+
+### 7. PUT /api/v1/conferences/{conferenceId}/talks/{talkId} — Обновление доклада
+
+**Тестируемое API**: /api/v1/conferences/{conferenceId}/talks/{talkId}
+**Метод**: PUT  
+
+**Реализация**:
+```C#
+ [HttpPut("{talkId}")]
+ [Authorize(Roles = "speaker")]
+ public ActionResult<Talk> Update(int conferenceId, int talkId, [FromBody] Talk updatedTalk)
+ {
+     // 1. Проверка, что тело запроса пришло
+     if (updatedTalk == null)
+     {
+         return BadRequest(new ErrorResponse
+         {
+             Error = "invalid_request",
+             Message = "Тело запроса отсутствует или некорректно"
+         });
+     }
+
+     // 2. Проверка обязательных полей (как в POST)
+     if (string.IsNullOrWhiteSpace(updatedTalk.Title))
+     {
+         return BadRequest(new ErrorResponse
+         {
+             Error = "validation_error",
+             Message = "Название доклада обязательно"
+         });
+     }
+
+     if (updatedTalk.SpeakerId <= 0)
+     {
+         return BadRequest(new ErrorResponse
+         {
+             Error = "validation_error",
+             Message = "ID спикера обязателен и должен быть положительным числом"
+         });
+     }
+
+     if (string.IsNullOrWhiteSpace(updatedTalk.StartTime))
+     {
+         return BadRequest(new ErrorResponse
+         {
+             Error = "validation_error",
+             Message = "Время начала доклада обязательно"
+         });
+     }
+
+     if (string.IsNullOrWhiteSpace(updatedTalk.Room))
+     {
+         return BadRequest(new ErrorResponse
+         {
+             Error = "validation_error",
+             Message = "Аудитория (комната) обязательна"
+         });
+     }
+
+     // 3. Проверка существования конференции
+     if (!InMemoryStore.Conferences.ContainsKey(conferenceId))
+     {
+         return NotFound(new ErrorResponse
+         {
+             Error = "not_found",
+             Message = "Конференция не найдена"
+         });
+     }
+
+     // 4. Проверка существования доклада и принадлежности к конференции
+     if (!InMemoryStore.Talks.TryGetValue(talkId, out var existing) || existing.ConferenceId != conferenceId)
+     {
+         return NotFound(new ErrorResponse
+         {
+             Error = "not_found",
+             Message = "Доклад не найден"
+         });
+     }
+
+     // 5. Проверка существования спикера (если меняют спикера)
+     if (!InMemoryStore.Speakers.ContainsKey(updatedTalk.SpeakerId))
+     {
+         return NotFound(new ErrorResponse
+         {
+             Error = "not_found",
+             Message = "Спикер с указанным ID не найден"
+         });
+     }
+
+     // 6. Проверка формата времени
+     if (!DateTime.TryParse(updatedTalk.StartTime, out var startTime))
+     {
+         return BadRequest(new ErrorResponse
+         {
+             Error = "validation_error",
+             Message = "Некорректный формат времени начала (ожидается YYYY-MM-DDTHH:MM)"
+         });
+     }
+
+     // Всё ок — обновляем
+     updatedTalk.Id = talkId;
+     updatedTalk.ConferenceId = conferenceId;
+     InMemoryStore.Talks[talkId] = updatedTalk;
+
+     return Ok(updatedTalk);
+ }
+```
+
+**Формат передаваемых данных**:
+```json
+{
+  "title": "string",
+  "speakerId": "int",
+  "startTime": "string",
+  "room": "string",
+  "slides": "string" или "null"
+}
+```
+
+**Формат получаемых данных**:
+```json
+{
+  "id": "int",
+  "conferenceId": "int",
+  "title": "string",
+  "speakerId": "int",
+  "startTime": "string" (формат YYYY-MM-DDTHH:MM),
+  "room": "string",
+  "slides": "string" или "null"
+}
+```
+
+**Тест 7.1 — Успешное обновление доклада**  
+**Строка запроса**: PUT https://localhost:7212/api/v1/conferences/1/talks/1
+
+**Передаваемые данные (Body — raw JSON)**:
+```json
+{
+  "title": "Обновлённый доклад: JWT в ASP.NET Core",
+  "speakerId": 1,
+  "startTime": "2026-04-15T12:00",
+  "room": "Зал А (обновлено)",
+  "slides": "https://slides.com/updated-jwt"
+}
+```
+Заголовки и параметры:
+- Headers: authorization - Bearer {{jwt_token}}  (токен роли speaker)
+- Params: нет (conferenceId и talkId в пути)
+
+![7-1-1](./PostmanScreens/7-1-1.png)
+Полученный ответ:
+Status: 200 Ok
+Body:
+```json
+{
+    "id": 1,
+    "conferenceId": 1,
+    "title": "Обновлённый доклад: JWT в ASP.NET Core",
+    "speakerId": 1,
+    "startTime": "2026-04-15T12:00",
+    "room": "Зал А (обновлено)",
+    "slides": "https://slides.com/updated-jwt"
+}
+```
+
+Код автотестов:
+```js
+pm.test("Статус ответа 200 OK", function () {
+    pm.response.to.have.status(200);
+});
+
+pm.test("Обновлённое название доклада", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData.title).to.equal("Обновлённый доклад: JWT в ASP.NET Core");
+});
+
+pm.test("Комната обновлена", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData.room).to.equal("Зал А (обновлено)");
+});
+
+pm.test("Все поля присутствуют", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData).to.have.all.keys("id", "conferenceId", "title", "speakerId", "startTime", "room", "slides");
+});
+```
+![7-1-2](./PostmanScreens/7-1-2.png)
+![7-1-3](./PostmanScreens/7-1-3.png)
+
+**Тест 7.2 — Попытка обновления доклада в несуществующей конференции**  
+**Строка запроса**: PUT https://localhost:7212/api/v1/conferences/999/talks/1
+
+**Передаваемые данные (Body — raw JSON)**:
+```json
+{
+  "title": "Обновлённый доклад (несуществующая конференция)",
+  "speakerId": 1,
+  "startTime": "2026-04-15T13:00",
+  "room": "Зал Б",
+  "slides": "https://example.com/new-slides.pdf"
+}
+```
+Заголовки и параметры:
+- Headers: authorization - Bearer {{jwt_token}}  (токен роли speaker)
+- Params: нет (conferenceId и talkId в пути)
+
+![7-2-1](./PostmanScreens/7-2-1.png)
+Полученный ответ:
+Status: 404 Not Found
+Body:
+```json
+{
+  "error": "not_found",
+  "message": "Конференция не найдена"
+}
+```
+
+Код автотестов:
+```js
+pm.test("Статус ответа 404 Not Found — конференция не существует", function () {
+    pm.response.to.have.status(404);
+});
+
+pm.test("В ответе правильный тип ошибки", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData).to.have.property("error");
+    pm.expect(jsonData.error).to.equal("not_found");
+});
+
+pm.test("Есть понятное сообщение об ошибке", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData).to.have.property("message");
+    pm.expect(jsonData.message).to.include("Конференция не найдена");
+});
+
+pm.test("Нет обновлённых полей в ответе об ошибке", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData).to.not.have.property("id");
+    pm.expect(jsonData).to.not.have.property("title");
+});
+```
+![7-2-2](./PostmanScreens/7-2-2.png)
+![7-2-3](./PostmanScreens/7-2-3.png)
+
+### 8. DELETE /api/v1/conferences/{conferenceId}/talks/{talkId} — Удаление доклада
+
+**Тестируемое API**: /api/v1/conferences/{conferenceId}/talks/{talkId}
+**Метод**: DELETE  
+
+**Реализация**:
+```C#
+   [HttpDelete("{talkId}")]
+   [Authorize(Roles = "speaker")]
+   public IActionResult Delete(int conferenceId, int talkId)
+   {
+       if (InMemoryStore.Talks.TryGetValue(talkId, out var talk) && talk.ConferenceId == conferenceId)
+       {
+           InMemoryStore.Talks.Remove(talkId);
+       }
+       return NoContent();
+   }
+```
+
+**Тест 8.1 — Успешное удаление существующего доклада**  
+**Строка запроса**: DELETE https://localhost:7212/api/v1/conferences/1/talks/1
+
+Передаваемые параметры:
+- Body: нет
+- Headers: authorization - Bearer {{jwt_token}}  (токен роли speaker)
+- Params: нет (conferenceId и talkId в пути)
+
+![8-1-1](./PostmanScreens/8-1-1.png)
+Полученный ответ:
+- Status: 204 No Content
+- Body: нет
+
+Код автотестов:
+```js
+pm.test("Статус ответа 204 No Content — удаление успешно", function () {
+    pm.response.to.have.status(204);
+});
+
+pm.test("Тело ответа пустое", function () {
+    pm.expect(pm.response.text()).to.be.empty;
+});
+```
+![8-1-2](./PostmanScreens/8-1-2.png)
+![8-1-3](./PostmanScreens/8-1-3.png)
+
+**Тест 8.2 — Идемпотентное удаление (повторный запрос на уже удалённый доклад)**  
+**Строка запроса**: DELETE https://localhost:7212/api/v1/conferences/1/talks/1
+
+В данном тесте провнеряется идемпотентность DELETE-операции. Она очень важна, потому что позволяет клиенту безопасно повторять запрос при сетевых сбоях или таймаутах, то есть повторное удаление уже удалённого ресурса не вызовет ошибку и не изменит состояние системы (сервер просто вернёт 204 снова). Это делает API надёжнее и предсказуемее, особенно в распределённых системах, где запрос может дублироваться.
+
+Сначала убедимся, что доклада действительно нет - для этого вызовем метод получения доклада:
+```C#
+    [HttpGet("{talkId}")]
+    [AllowAnonymous]
+    public ActionResult<Talk> GetTalk(int conferenceId, int talkId)
+    {
+        if (!InMemoryStore.Talks.TryGetValue(talkId, out var talk) || talk.ConferenceId != conferenceId)
+            return NotFound(new ErrorResponse { Error = "not_found", Message = "Доклад не найден" });
+
+        return Ok(talk);
+    }
+```
+Доклад действительно был удален после первого теста - 404 Not Found:
+![8-2-4](./PostmanScreens/8-2-4.png)
+![8-2-5](./PostmanScreens/8-2-5.png)
+
+Теперь перейдем к повторному удалению доклада.
+
+Передаваемые параметры:
+- Body: нет
+- Headers: authorization - Bearer {{jwt_token}}  (токен роли speaker)
+- Params: нет (conferenceId и talkId в пути)
+
+![8-2-1](./PostmanScreens/8-2-1.png)
+Полученный ответ:
+- Status: 204 No Content
+- Body: нет
+
+Код автотестов:
+```js
+pm.test("Статус ответа 204 No Content при повторном удалении", function () {
+    pm.response.to.have.status(204);
+});
+
+pm.test("Повторный DELETE идемпотентен — тело пустое", function () {
+    pm.expect(pm.response.text()).to.be.empty;
+});
+```
+![8-2-2](./PostmanScreens/8-2-2.png)
+![8-2-3](./PostmanScreens/8-2-3.png)
+
