@@ -213,7 +213,7 @@ public ActionResult<Conference> Get(int id)
 ```
 
 **Тест 2.1 — Успешное получение существующей конференции**  
-**Строка запроса**: GET https://localhost:7123/api/v1/conferences/1
+**Строка запроса**: GET https://localhost:7212/api/v1/conferences/1
 
 Передаваемые параметры:
 - Body: отсутствует
@@ -280,7 +280,7 @@ pm.test("В объекте ровно 5 полей (нет лишних)", funct
 ![2-1-2](./PostmanScreens/2-1-2.png)
 
 **Тест 2.2 — Запрос несуществующей конференции (id = 9999)**  
-**Строка запроса**: GET https://localhost:7123/api/v1/conferences/9999
+**Строка запроса**: GET https://localhost:7212/api/v1/conferences/9999
 
 Передаваемые параметры:
 - Body: отсутствует
@@ -318,3 +318,227 @@ pm.test("Есть сообщение об ошибке", function () {
 });
 ```
 ![2-2-2](./PostmanScreens/2-2-2.png)
+
+### 3. POST /api/v1/conferences — Создание конференции
+
+**Тестируемое API**: /api/v1/conferences
+**Метод**: POST  
+
+**Реализация**:
+```C#
+[HttpPost]
+[Authorize(Roles = "organizer")]
+public ActionResult<Conference> Create([FromBody] Conference conf)
+{
+    // 1. Проверка, что тело пришло
+    if (conf == null)
+    {
+        return BadRequest(new ErrorResponse
+        {
+            Error = "invalid_request",
+            Message = "Тело запроса отсутствует или некорректно"
+        });
+    }
+
+    // 2. Проверка обязательных полей
+    if (string.IsNullOrWhiteSpace(conf.Name))
+    {
+        return BadRequest(new ErrorResponse
+        {
+            Error = "validation_error",
+            Message = "Название конференции обязательно"
+        });
+    }
+
+    if (string.IsNullOrWhiteSpace(conf.StartDate))
+    {
+        return BadRequest(new ErrorResponse
+        {
+            Error = "validation_error",
+            Message = "Дата начала конференции обязательна"
+        });
+    }
+
+    if (string.IsNullOrWhiteSpace(conf.EndDate))
+    {
+        return BadRequest(new ErrorResponse
+        {
+            Error = "validation_error",
+            Message = "Дата окончания конференции обязательна"
+        });
+    }
+
+    if (string.IsNullOrWhiteSpace(conf.Location))
+    {
+        return BadRequest(new ErrorResponse
+        {
+            Error = "validation_error",
+            Message = "Место проведения конференции обязательно"
+        });
+    }
+
+    // 3. Проверка логики дат (startDate < endDate)
+    if (!DateTime.TryParse(conf.StartDate, out var start) ||
+        !DateTime.TryParse(conf.EndDate, out var end))
+    {
+        return BadRequest(new ErrorResponse
+        {
+            Error = "validation_error",
+            Message = "Некорректный формат дат (ожидается YYYY-MM-DD)"
+        });
+    }
+
+    if (start >= end)
+    {
+        return BadRequest(new ErrorResponse
+        {
+            Error = "validation_error",
+            Message = "Дата начала должна быть раньше даты окончания"
+        });
+    }
+
+    conf.Id = InMemoryStore.NextConferenceId();
+    InMemoryStore.Conferences[conf.Id] = conf;
+
+    return CreatedAtAction(nameof(Get), new { id = conf.Id }, conf);
+}
+```
+
+**Тест 3.1 — Успешное создание конференции**  
+**Строка запроса**: POST https://localhost:7212/api/v1/conferences
+
+**Передаваемые данные (Body — raw JSON)**:
+```json
+{
+  "name": "Конференция Осень 2026",
+  "startDate": "2026-09-10",
+  "endDate": "2026-09-12",
+  "location": "Екатеринбург"
+}
+```
+Заголовки и параметры:
+- Headers: authorization - Bearer {{jwt_token}}  (токен роли organizer)
+- Params: нет
+
+![3-1-1](./PostmanScreens/3-1-1.png)
+Полученный ответ:
+Status: 201 Created
+Body:
+```json
+{
+    "id": 4,
+    "name": "Конференция Осень 2026",
+    "startDate": "2026-09-10",
+    "endDate": "2026-09-12",
+    "location": "Екатеринбург"
+}
+```
+
+Код автотестов:
+```js
+pm.test("Статус ответа 201 Created", function () {
+    pm.response.to.have.status(201);
+});
+
+pm.test("В ответе есть сгенерированный id", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData).to.have.property("id");
+    pm.expect(jsonData.id).to.be.a("number").and.be.above(0);
+});
+
+pm.test("Возвращённые данные совпадают с отправленными", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData.name).to.equal("Конференция Осень 2026");
+    pm.expect(jsonData.startDate).to.equal("2026-09-10");
+    pm.expect(jsonData.endDate).to.equal("2026-09-12");
+    pm.expect(jsonData.location).to.equal("Екатеринбург");
+});
+
+```
+![3-1-2](./PostmanScreens/3-1-2.png)
+![3-1-3](./PostmanScreens/3-1-3.png)
+
+**Тест 3.2 — Ошибка валидации (отсутствует обязательное поле "name")**  
+**Строка запроса**: POST https://localhost:7212/api/v1/conferences
+
+**Передаваемые данные (Body — raw JSON)**:
+```json
+{
+  "startDate": "2026-09-15",
+  "endDate": "2026-09-17",
+  "location": "Новосибирск"
+}
+```
+Заголовки и параметры:
+- Headers: authorization - Bearer {{jwt_token}}  (токен роли organizer)
+- Params: нет
+
+![3-2-1](./PostmanScreens/3-2-1.png)
+Полученный ответ:
+Status: 400 Bad Request
+Body:
+```json
+{
+  "error": "validation_error",
+  "message": "Название конференции обязательно"
+}
+```
+
+Код автотестов:
+```js
+pm.test("Статус ответа 400 Bad Request", function () {
+    pm.response.to.have.status(400);
+});
+
+pm.test("Ошибка из-за отсутствия названия", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData).to.have.property("error");
+    pm.expect(jsonData.error).to.equal("validation_error");
+    pm.expect(jsonData).to.have.property("message");
+    pm.expect(jsonData.message).to.include("Название конференции обязательно");
+});
+
+pm.test("Нет поля id в ответе об ошибке", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData).to.not.have.property("id");
+});
+```
+![3-2-2](./PostmanScreens/3-2-2.png)
+![3-2-3](./PostmanScreens/3-2-3.png)
+
+**Тест 3.3 — Попытка создания конференции без токена авторизации**  
+**Строка запроса**: POST https://localhost:7212/api/v1/conferences
+
+**Передаваемые данные (Body — raw JSON)**:
+```json
+{
+  "name": "Конференция без токена",
+  "startDate": "2026-10-01",
+  "endDate": "2026-10-03",
+  "location": "Казань"
+}
+```
+Заголовки и параметры:
+- Headers: нет
+- Params: нет
+- Authorization: нет
+
+![3-3-1](./PostmanScreens/3-3-1.png)
+Полученный ответ:
+- Status: 401 Unauthorized
+- Body: нет
+
+Код автотестов:
+```js
+pm.test("Статус ответа 401 Unauthorized — нет токена", function () {
+    pm.response.to.have.status(401);
+});
+
+pm.test("Есть заголовок WWW-Authenticate с Bearer", function () {
+    var wwwAuth = pm.response.headers.get("WWW-Authenticate");
+    pm.expect(wwwAuth).to.exist;
+    pm.expect(wwwAuth).to.include("Bearer");
+});
+```
+![3-3-2](./PostmanScreens/3-3-2.png)
+
