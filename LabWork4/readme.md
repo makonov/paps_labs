@@ -982,8 +982,8 @@ pm.test("Нет поля id в ответе об ошибке", function () {
     pm.expect(jsonData).to.not.have.property("id");
 });
 ```
-![5-2-2](./PostmanScreens/5-1-2.png)
-![5-2-3](./PostmanScreens/5-1-3.png)
+![5-2-2](./PostmanScreens/5-2-2.png)
+![5-2-3](./PostmanScreens/5-2-3.png)
 
 ### 6. POST /api/v1/conferences/{conferenceId}/talks/{talkId}/votes — Голосование
 
