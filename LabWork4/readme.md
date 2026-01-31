@@ -112,6 +112,21 @@ public IActionResult Login([FromBody] LoginRequest request)
     return Ok(new JwtResponse { AccessToken = new JwtSecurityTokenHandler().WriteToken(token) });
 }
 ```
+**Формат передаваемых данных**:
+```json
+{
+  "username": "string",
+  "password": "string",
+  "role": "string"
+}
+```
+
+**Формат получаемых данных**:
+```json
+{
+    "accessToken": "string"
+}
+```
 
 **Тест 1.1 — Успешная авторизация (роль organizer)**  
 **Строка запроса**: POST https://localhost:7212/auth/login
@@ -209,6 +224,17 @@ public ActionResult<Conference> Get(int id)
         return NotFound(new ErrorResponse { Error = "not_found", Message = "Конференция не найдена" });
 
     return Ok(conf);
+}
+```
+
+**Формат получаемых данных**:
+```json
+{
+  "id" : "int",
+  "name": "string",
+  "startDate": "string" (формат YYYY-MM-DD),
+  "endDate": "string" (формат YYYY-MM-DD),
+  "location": "string" 
 }
 ```
 
@@ -403,6 +429,26 @@ public ActionResult<Conference> Create([FromBody] Conference conf)
     return CreatedAtAction(nameof(Get), new { id = conf.Id }, conf);
 }
 ```
+**Формат передаваемых данных**:
+```json
+{           
+  "name": "string",
+  "startDate": "string" (формат YYYY-MM-DD),
+  "endDate": "string" (формат YYYY-MM-DD),
+  "location": "string"
+}
+```
+
+**Формат получаемых данных**:
+```json
+{
+  "id": "int",               
+  "name": "string",
+  "startDate": "string" (формат YYYY-MM-DD),
+  "endDate": "string" (формат YYYY-MM-DD),
+  "location": "string"
+}
+```
 
 **Тест 3.1 — Успешное создание конференции**  
 **Строка запроса**: POST https://localhost:7212/api/v1/conferences
@@ -542,3 +588,576 @@ pm.test("Есть заголовок WWW-Authenticate с Bearer", function () {
 ```
 ![3-3-2](./PostmanScreens/3-3-2.png)
 
+### 4. GET /api/v1/conferences/{conferenceId}/schedule — Расписание конференции
+**Тестируемое API**: /api/v1/conferences/{conferenceId}/schedule
+**Метод**: GET  
+
+**Реализация**:
+```C#
+[ApiController]
+[Route("api/v1/conferences/{conferenceId}/schedule")]
+public class ScheduleController : ControllerBase
+{
+    [HttpGet]
+    [AllowAnonymous]   // публичный доступ — любой может смотреть расписание
+    public ActionResult<List<Talk>> GetSchedule(int conferenceId)
+    {
+        if (!InMemoryStore.Conferences.ContainsKey(conferenceId))
+            return NotFound(new ErrorResponse { Error = "not_found", Message = "Конференция не найдена" });
+
+        var schedule = InMemoryStore.Talks.Values
+            .Where(t => t.ConferenceId == conferenceId)
+            .OrderBy(t => t.StartTime)
+            .ToList();
+
+        return Ok(schedule);
+    }
+}
+```
+
+**Формат получаемых данных** - массив объектов Talk:
+```json
+[
+   {
+     "id": "int",
+     "conferenceId": "int",
+     "title": "string",
+     "speakerId": "int",
+     "startTime": "string" (формат YYYY-MM-DD),
+     "room": "string",
+     "slides": "string" или "null"
+   },
+...
+]
+```
+
+**Тест 4.1 — Успешное получение расписания**  
+**Строка запроса**: GET https://localhost:7212/api/v1/conferences/{{conference_id}}/schedule
+
+Передаваемые параметры:
+- Body: отсутствует
+- Headers: отсутствуют
+- Authorization: отсутствует (публичный эндпоинт)
+- Params: нет (id передается в пути)
+
+![4-1-1](./PostmanScreens/4-1-1.png)
+Полученный ответ:
+Status: 200 OK
+Body:
+```json
+[
+    {
+        "id": 1,
+        "conferenceId": 1,
+        "title": "JWT авторизация в ASP.NET Core",
+        "speakerId": 1,
+        "startTime": "2026-04-15T11:00",
+        "room": "Зал 2",
+        "slides": "https://slides.com/jwt-asp"
+    },
+    {
+        "id": 2,
+        "conferenceId": 1,
+        "title": "Тестирование REST API с Postman",
+        "speakerId": 1,
+        "startTime": "2026-04-15T14:00",
+        "room": "Зал 3",
+        "slides": "https://example.com/postman-testing.pdf"
+    }
+]
+```
+
+Код автотестов:
+```js
+pm.test("Статус ответа 200 OK", function () {
+    pm.response.to.have.status(200);
+});
+
+pm.test("Ответ — массив объектов докладов", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData).to.be.an("array");
+});
+
+pm.test("В массиве минимум 2 доклада", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData.length).to.be.at.least(2);
+});
+
+pm.test("Каждый доклад имеет все ожидаемые поля", function () {
+    var jsonData = pm.response.json();
+    
+    jsonData.forEach(function(talk, index) {
+        pm.expect(talk).to.have.all.keys(
+            "id", 
+            "conferenceId", 
+            "title", 
+            "speakerId", 
+            "startTime", 
+            "room", 
+            "slides"
+        );
+        
+        pm.expect(talk.id).to.be.a("number");
+        pm.expect(talk.conferenceId).to.be.a("number");
+        pm.expect(talk.title).to.be.a("string").and.not.empty;
+        pm.expect(talk.speakerId).to.be.a("number");
+        pm.expect(talk.startTime).to.be.a("string").and.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/);
+        pm.expect(talk.room).to.be.a("string");
+        pm.expect(talk.slides).to.be.a("string"); // или null — но в твоём примере строка
+    });
+});
+
+pm.test("Первый доклад имеет ожидаемые значения", function () {
+    var jsonData = pm.response.json();
+    var firstTalk = jsonData[0];
+    
+    pm.expect(firstTalk.id).to.equal(1);
+    pm.expect(firstTalk.conferenceId).to.equal(1);
+    pm.expect(firstTalk.title).to.equal("JWT авторизация в ASP.NET Core");
+    pm.expect(firstTalk.speakerId).to.equal(1);
+    pm.expect(firstTalk.startTime).to.equal("2026-04-15T11:00");
+    pm.expect(firstTalk.room).to.equal("Зал 2");
+    pm.expect(firstTalk.slides).to.equal("https://slides.com/jwt-asp");
+});
+```
+![4-1-2](./PostmanScreens/2-1-2.png)
+
+**Тест 4.2 — Запрос расписания по несуществующей конференции (id = 9999)**  
+**Строка запроса**: GET https://localhost:7212/api/v1/conferences/9999/schedule
+
+Передаваемые параметры:
+- Body: отсутствует
+- Headers: отсутствуют
+- Authorization: отсутствует (публичный эндпоинт)
+- Params: нет (id передается в пути)
+
+![4-2-1](./PostmanScreens/4-2-1.png)
+Полученный ответ:
+Status: 400 Not Found
+Body:
+```json
+{
+  "error": "not_found",
+  "message": "Конференция не найдена"
+}
+```
+
+Код автотестов:
+```js
+pm.test("Статус ответа 404 Not Found", function () {
+    pm.response.to.have.status(404);
+});
+
+pm.test("В ответе правильный тип ошибки", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData).to.have.property("error");
+    pm.expect(jsonData.error).to.equal("not_found");
+});
+
+pm.test("Есть сообщение об ошибке", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData).to.have.property("message");
+    pm.expect(jsonData.message).to.include("Конференция не найдена");
+});
+```
+![4-2-2](./PostmanScreens/4-2-2.png)
+
+### 5. POST /api/v1/conferences/{conferenceId}/talks — Создание доклада
+
+**Тестируемое API**: /api/v1/conferences/{conferenceId}/talks
+**Метод**: POST  
+
+**Реализация**:
+```C#
+[HttpPost]
+[Authorize(Roles = "speaker")]
+public ActionResult<Talk> Create(int conferenceId, [FromBody] Talk talk)
+{
+    // 1. Проверка, что тело запроса пришло
+    if (talk == null)
+    {
+        return BadRequest(new ErrorResponse
+        {
+            Error = "invalid_request",
+            Message = "Тело запроса отсутствует или некорректно"
+        });
+    }
+
+    // 2. Проверка обязательных полей
+    if (string.IsNullOrWhiteSpace(talk.Title))
+    {
+        return BadRequest(new ErrorResponse
+        {
+            Error = "validation_error",
+            Message = "Название доклада обязательно"
+        });
+    }
+
+    if (talk.SpeakerId <= 0)
+    {
+        return BadRequest(new ErrorResponse
+        {
+            Error = "validation_error",
+            Message = "ID спикера обязателен и должен быть положительным числом"
+        });
+    }
+
+    if (string.IsNullOrWhiteSpace(talk.StartTime))
+    {
+        return BadRequest(new ErrorResponse
+        {
+            Error = "validation_error",
+            Message = "Время начала доклада обязательно"
+        });
+    }
+
+    if (string.IsNullOrWhiteSpace(talk.Room))
+    {
+        return BadRequest(new ErrorResponse
+        {
+            Error = "validation_error",
+            Message = "Аудитория (комната) обязательна"
+        });
+    }
+
+    // 3. Проверка, существует ли конференция
+    if (!InMemoryStore.Conferences.ContainsKey(conferenceId))
+    {
+        return NotFound(new ErrorResponse
+        {
+            Error = "not_found",
+            Message = "Конференция не найдена"
+        });
+    }
+
+    // 4. Проверка, существует ли спикер
+    if (!InMemoryStore.Speakers.ContainsKey(talk.SpeakerId))
+    {
+        return NotFound(new ErrorResponse
+        {
+            Error = "not_found",
+            Message = "Спикер с указанным ID не найден"
+        });
+    }
+
+    // 5. Проверка формата времени
+    if (!DateTime.TryParse(talk.StartTime, out var startTime))
+    {
+        return BadRequest(new ErrorResponse
+        {
+            Error = "validation_error",
+            Message = "Некорректный формат времени начала (ожидается YYYY-MM-DDTHH:MM)"
+        });
+    }
+
+    talk.Id = InMemoryStore.NextTalkId();
+    talk.ConferenceId = conferenceId;
+    InMemoryStore.Talks[talk.Id] = talk;
+
+    return CreatedAtAction(nameof(GetTalk), new { conferenceId, talkId = talk.Id }, talk);
+}
+```
+**Формат передаваемых данных**:
+```json
+{
+  "title": "string",
+  "speakerId": "int",
+  "startTime": "string" (формат YYYY-MM-DDTHH:MM),
+  "room": "string",
+  "slides": "string" или "null"
+}
+```
+
+**Формат получаемых данных**:
+```json
+{
+  "id": "int",
+  "conferenceId": "int",
+  "title": "string",
+  "speakerId": "int",
+  "startTime": "string" (формат YYYY-MM-DDTHH:MM),
+  "room": "string",
+  "slides": "string" или "null"
+}
+```
+
+**Тест 5.1 — Успешное создание доклада**  
+**Строка запроса**: POST https://localhost:7212/api/v1/conferences/1/talks
+
+**Передаваемые данные (Body — raw JSON)**:
+```json
+{
+  "title": "Современные паттерны в .NET",
+  "speakerId": 1,
+  "startTime": "2026-04-15T15:30",
+  "room": "Зал В",
+  "slides": "https://slides.com/dotnet-patterns"
+}
+```
+Заголовки и параметры:
+- Headers: authorization - Bearer {{jwt_token}}  (токен роли speaker)
+- Params: нет (conferenceId в пути)
+
+![5-1-1](./PostmanScreens/5-1-1.png)
+Полученный ответ:
+Status: 201 Created
+Body:
+```json
+{
+    "id": 3,
+    "conferenceId": 1,
+    "title": "Современные паттерны в .NET",
+    "speakerId": 1,
+    "startTime": "2026-04-15T15:30",
+    "room": "Зал В",
+    "slides": "https://slides.com/dotnet-patterns"
+}
+```
+
+Код автотестов:
+```js
+pm.test("Статус ответа 400 Bad Request", function () {
+    pm.response.to.have.status(400);
+});
+
+pm.test("Ошибка из-за отсутствия названия доклада", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData).to.have.property("Error");
+    pm.expect(jsonData.Error).to.equal("validation_error");
+    pm.expect(jsonData).to.have.property("Message");
+    pm.expect(jsonData.Message).to.include("Название доклада обязательно");
+});
+
+pm.test("Нет поля id в ответе об ошибке", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData).to.not.have.property("id");
+});
+```
+![5-1-2](./PostmanScreens/5-1-2.png)
+![5-1-3](./PostmanScreens/5-1-3.png)
+
+**Тест 5.2 — Ошибка валидации при создании доклада (отсутствует обязательное поле title)**  
+**Строка запроса**: POST https://localhost:7212/api/v1/conferences/1/talks
+
+**Передаваемые данные (Body — raw JSON)**:
+```json
+{
+  "speakerId": 1,
+  "startTime": "2026-04-15T16:00",
+  "room": "Зал Г",
+  "slides": "https://example.com/slides.pdf"
+}
+```
+Заголовки и параметры:
+- Headers: authorization - Bearer {{jwt_token}}  (токен роли speaker)
+- Params: нет (conferenceId в пути)
+
+![5-2-1](./PostmanScreens/5-2-1.png)
+Полученный ответ:
+Status: 400 Bad Request
+Body:
+```json
+{
+    "error": "validation_error",
+    "message": "Название доклада обязательно"
+}
+```
+
+Код автотестов:
+```js
+pm.test("Статус ответа 400 Bad Request", function () {
+    pm.response.to.have.status(400);
+});
+
+pm.test("Ошибка из-за отсутствия названия доклада", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData).to.have.property("error");
+    pm.expect(jsonData.error).to.equal("validation_error");
+    pm.expect(jsonData).to.have.property("message");
+    pm.expect(jsonData.message).to.include("Название доклада обязательно");
+});
+
+pm.test("Нет поля id в ответе об ошибке", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData).to.not.have.property("id");
+});
+```
+![5-2-2](./PostmanScreens/5-1-2.png)
+![5-2-3](./PostmanScreens/5-1-3.png)
+
+### 6. POST /api/v1/conferences/{conferenceId}/talks/{talkId}/votes — Голосование
+
+**Тестируемое API**: /api/v1/conferences/{conferenceId}/talks/{talkId}/votes
+**Метод**: POST  
+
+**Реализация**:
+```C#
+[HttpPost]
+[Authorize(Roles = "participant")]
+public ActionResult<Vote> CreateVote(int conferenceId, int talkId, [FromBody] Vote vote)
+{
+    // 1. Проверка, что тело запроса пришло
+    if (vote == null)
+    {
+        return BadRequest(new ErrorResponse
+        {
+            Error = "invalid_request",
+            Message = "Тело запроса отсутствует или некорректно"
+        });
+    }
+
+    // 2. Проверка обязательных полей
+    if (vote.ParticipantId <= 0)
+    {
+        return BadRequest(new ErrorResponse
+        {
+            Error = "validation_error",
+            Message = "ID участника обязателен и должен быть положительным числом"
+        });
+    }
+
+    // 3. Проверка существования конференции и доклада
+    if (!InMemoryStore.Conferences.ContainsKey(conferenceId))
+        return NotFound(new ErrorResponse { Error = "not_found", Message = "Конференция не найдена" });
+
+    if (!InMemoryStore.Talks.TryGetValue(talkId, out var talk) || talk.ConferenceId != conferenceId)
+        return NotFound(new ErrorResponse { Error = "not_found", Message = "Доклад не найден" });
+
+    // один участник голосует один раз за доклад
+    var existingVote = InMemoryStore.Votes.Values
+        .FirstOrDefault(v => v.TalkId == talkId && v.ParticipantId == vote.ParticipantId);
+
+    if (existingVote != null)
+    {
+        return Conflict(new ErrorResponse
+        {
+            Error = "already_voted",
+            Message = "Участник уже проголосовал за этот доклад"
+        });
+    }
+
+    vote.Id = InMemoryStore.NextVoteId();
+    vote.TalkId = talkId;
+    InMemoryStore.Votes[vote.Id] = vote;
+
+    return CreatedAtAction(nameof(GetVotes), new { conferenceId, talkId }, vote);
+}
+```
+
+**Формат передаваемых данных**:
+```json
+{
+  "participantId": "int"  > 0,
+  "value": "bool" 
+}
+```
+
+**Формат получаемых данных**:
+```json
+{
+  "id": "int",
+  "talkId": "int",
+  "participantId": "int",
+  "value": "bool"
+}
+```
+
+**Тест 6.1 — Успешное создание голоса**  
+**Строка запроса**: POST https://localhost:7212/api/v1/conferences/1/talks/1/votes
+
+**Передаваемые данные (Body — raw JSON)**:
+```json
+{
+  "participantId": 1004,
+  "value": true
+}
+```
+Заголовки и параметры:
+- Headers: authorization - Bearer {{jwt_token}}  (токен роли speaker)
+- Params: нет (conferenceId и talkId в пути)
+
+![6-1-1](./PostmanScreens/6-1-1.png)
+Полученный ответ:
+Status: 201 Created
+Body:
+```json
+{
+    "id": 4,
+    "talkId": 1,
+    "participantId": 1004,
+    "value": true
+}
+```
+
+Код автотестов:
+```js
+pm.test("Статус ответа 201 Created", function () {
+    pm.response.to.have.status(201);
+});
+
+pm.test("В ответе есть сгенерированный id", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData).to.have.property("id");
+    pm.expect(jsonData.id).to.be.a("number").and.be.above(0);
+});
+
+pm.test("Голос положительный и participantId совпадает", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData.value).to.be.true;
+    pm.expect(jsonData.participantId).to.equal(1004);
+});
+
+pm.test("talkId в ответе совпадает с переданным", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData.talkId).to.equal(1);
+});
+```
+![6-1-2](./PostmanScreens/6-1-2.png)
+![6-1-3](./PostmanScreens/6-1-3.png)
+
+**Тест 6.2 — Ошибка при повторном голосовании (один участник голосует второй раз)**  
+**Строка запроса**: POST https://localhost:7212/api/v1/conferences/1/talks/1/votes (тот же conferenceId и talkId, что в первом тесте)
+
+**Передаваемые данные (Body — raw JSON)**:
+```json
+{
+  "participantId": 1004,
+  "value": true
+}
+```
+Заголовки и параметры:
+- Headers: authorization - Bearer {{jwt_token}}  (токен роли speaker)
+- Params: нет (conferenceId и talkId в пути)
+
+![6-2-1](./PostmanScreens/6-2-1.png)
+Полученный ответ:
+Status: 201 Created
+Body:
+```json
+{
+    "error": "already_voted",
+    "message": "Участник уже проголосовал за этот доклад"
+}
+```
+
+Код автотестов:
+```js
+pm.test("Статус ответа 409 Conflict при повторном голосовании", function () {
+    pm.response.to.have.status(409);
+});
+
+pm.test("Ошибка уже проголосовал", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData).to.have.property("error");
+    pm.expect(jsonData.error).to.equal("already_voted");
+    pm.expect(jsonData).to.have.property("message");
+    pm.expect(jsonData.message).to.include("уже проголосовал");
+});
+
+pm.test("Нет поля id в ответе об ошибке", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData).to.not.have.property("id");
+});
+```
+![6-2-2](./PostmanScreens/6-2-2.png)
+![6-2-3](./PostmanScreens/6-2-3.png)
