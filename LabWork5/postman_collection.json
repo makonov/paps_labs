@@ -35,7 +35,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n  \"username\": \"user\",\r\n  \"password\": \"pass\",\r\n  \"role\": \"organizer\"\r\n}",
+          "raw": "{\r\n  \"username\": \"user1\",\r\n  \"password\": \"pass123\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -44,11 +44,9 @@
         },
         "url": {
           "raw": "{{API_URL}}/auth/login",
-          "protocol": "https",
           "host": [
-            "localhost"
+            "{{API_URL}}"
           ],
-          "port": "7212",
           "path": [
             "auth",
             "login"
@@ -84,7 +82,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n  \"username\": \"user\",\r\n  \"password\": \"wrongpass\",\r\n  \"role\": \"organizer\"\r\n}",
+          "raw": "{\r\n  \"username\": \"user1\",\r\n  \"password\": \"wrongpass\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -93,11 +91,9 @@
         },
         "url": {
           "raw": "{{API_URL}}/auth/login",
-          "protocol": "https",
           "host": [
-            "localhost"
+            "{{API_URL}}"
           ],
-          "port": "7212",
           "path": [
             "auth",
             "login"
@@ -176,11 +172,9 @@
         },
         "url": {
           "raw": "{{API_URL}}/api/v1/conferences/1",
-          "protocol": "https",
           "host": [
-            "localhost"
+            "{{API_URL}}"
           ],
-          "port": "7212",
           "path": [
             "api",
             "v1",
@@ -237,11 +231,9 @@
         },
         "url": {
           "raw": "{{API_URL}}/api/v1/conferences/9999",
-          "protocol": "https",
           "host": [
-            "localhost"
+            "{{API_URL}}"
           ],
-          "port": "7212",
           "path": [
             "api",
             "v1",
@@ -288,7 +280,7 @@
       ],
       "request": {
         "auth": {
-          "type": "noauth"
+          "type": "bearer"
         },
         "method": "POST",
         "header": [
@@ -309,11 +301,9 @@
         },
         "url": {
           "raw": "{{API_URL}}/api/v1/conferences",
-          "protocol": "https",
           "host": [
-            "localhost"
+            "{{API_URL}}"
           ],
-          "port": "7212",
           "path": [
             "api",
             "v1",
@@ -376,11 +366,9 @@
         },
         "url": {
           "raw": "{{API_URL}}/api/v1/conferences",
-          "protocol": "https",
           "host": [
-            "localhost"
+            "{{API_URL}}"
           ],
-          "port": "7212",
           "path": [
             "api",
             "v1",
@@ -430,11 +418,9 @@
         },
         "url": {
           "raw": "{{API_URL}}/api/v1/conferences",
-          "protocol": "https",
           "host": [
-            "localhost"
+            "{{API_URL}}"
           ],
-          "port": "7212",
           "path": [
             "api",
             "v1",
@@ -525,11 +511,9 @@
         },
         "url": {
           "raw": "{{API_URL}}/api/v1/conferences/1/schedule",
-          "protocol": "https",
           "host": [
-            "localhost"
+            "{{API_URL}}"
           ],
-          "port": "7212",
           "path": [
             "api",
             "v1",
@@ -587,11 +571,9 @@
         },
         "url": {
           "raw": "{{API_URL}}/api/v1/conferences/9999/schedule",
-          "protocol": "https",
           "host": [
-            "localhost"
+            "{{API_URL}}"
           ],
-          "port": "7212",
           "path": [
             "api",
             "v1",
@@ -660,11 +642,9 @@
         },
         "url": {
           "raw": "{{API_URL}}/api/v1/conferences/1/talks",
-          "protocol": "https",
           "host": [
-            "localhost"
+            "{{API_URL}}"
           ],
-          "port": "7212",
           "path": [
             "api",
             "v1",
@@ -729,11 +709,9 @@
         },
         "url": {
           "raw": "{{API_URL}}/api/v1/conferences/1/talks",
-          "protocol": "https",
           "host": [
-            "localhost"
+            "{{API_URL}}"
           ],
-          "port": "7212",
           "path": [
             "api",
             "v1",
@@ -802,11 +780,9 @@
         },
         "url": {
           "raw": "{{API_URL}}/api/v1/conferences/1/talks/1/votes",
-          "protocol": "https",
           "host": [
-            "localhost"
+            "{{API_URL}}"
           ],
-          "port": "7212",
           "path": [
             "api",
             "v1",
@@ -873,11 +849,9 @@
         },
         "url": {
           "raw": "{{API_URL}}/api/v1/conferences/1/talks/1/votes",
-          "protocol": "https",
           "host": [
-            "localhost"
+            "{{API_URL}}"
           ],
-          "port": "7212",
           "path": [
             "api",
             "v1",
@@ -946,11 +920,9 @@
         },
         "url": {
           "raw": "{{API_URL}}/api/v1/conferences/1/talks/1",
-          "protocol": "https",
           "host": [
-            "localhost"
+            "{{API_URL}}"
           ],
-          "port": "7212",
           "path": [
             "api",
             "v1",
@@ -1021,11 +993,9 @@
         },
         "url": {
           "raw": "{{API_URL}}/api/v1/conferences/999/talks/1",
-          "protocol": "https",
           "host": [
-            "localhost"
+            "{{API_URL}}"
           ],
-          "port": "7212",
           "path": [
             "api",
             "v1",
@@ -1082,11 +1052,9 @@
         },
         "url": {
           "raw": "{{API_URL}}/api/v1/conferences/1/talks/1",
-          "protocol": "https",
           "host": [
-            "localhost"
+            "{{API_URL}}"
           ],
-          "port": "7212",
           "path": [
             "api",
             "v1",
@@ -1143,11 +1111,9 @@
         },
         "url": {
           "raw": "{{API_URL}}/api/v1/conferences/1/talks/1",
-          "protocol": "https",
           "host": [
-            "localhost"
+            "{{API_URL}}"
           ],
-          "port": "7212",
           "path": [
             "api",
             "v1",
@@ -1212,11 +1178,9 @@
         },
         "url": {
           "raw": "{{API_URL}}/api/v1/conferences/1/talks/1",
-          "protocol": "https",
           "host": [
-            "localhost"
+            "{{API_URL}}"
           ],
-          "port": "7212",
           "path": [
             "api",
             "v1",
