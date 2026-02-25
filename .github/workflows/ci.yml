@@ -29,9 +29,8 @@ jobs:
     # Интеграционные тесты
     - name: Install Newman
       run: npm install -g newman
-
-    - name: Run Postman tests
-      run: newman run ./postman_collection.json -e ./postman_environment.json || exit 1
+    - name: Run Postman tests 
+      run: newman run LabWork5/postman_collection.json -e LabWork5/postman_environment.json || exit 1
 
     - name: Stop containers
       run: docker compose -f LabWork5/docker-compose.yml down
