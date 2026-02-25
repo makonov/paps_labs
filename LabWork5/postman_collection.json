@@ -43,7 +43,7 @@
           }
         },
         "url": {
-          "raw": "https://localhost:7212/auth/login",
+          "raw": "{{API_URL}}/auth/login",
           "protocol": "https",
           "host": [
             "localhost"
