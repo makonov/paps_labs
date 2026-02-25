@@ -1,0 +1,48 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16-alpine
+    platform: linux/amd64
+    container_name: conference_db
+    environment:
+      POSTGRES_DB: conference_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d conference_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: ./ConferenceApi/WebApplication1
+      dockerfile: Dockerfile
+    container_name: conference_api
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=conference_db;Username=postgres;Password=postgres
+      - ASPNETCORE_URLS=http://+:8080
+      - Jwt__Secret=VERY_LONG_SUPER_SECRET_KEY_FOR_JWT_2026_PROJECT
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+
+  client:
+    build:
+      context: ./СonferenceClient/client
+      dockerfile: Dockerfile
+    container_name: conference_client
+    depends_on:
+      - api
+    ports:
+      - "3000:80"
+
+volumes:
+  db_data:

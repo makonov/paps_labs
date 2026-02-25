@@ -1,38 +1,36 @@
 import React, { useState } from 'react';
-import { login } from '../api';
 import { useNavigate } from 'react-router-dom';
+import { login } from '../api';
 
-interface LoginProps {
-  setToken: (token: string) => void;
+interface Props {
+  setToken: React.Dispatch<React.SetStateAction<string | null>>;
+  setRole: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-const Login: React.FC<LoginProps> = ({ setToken }) => {
+const Login: React.FC<Props> = ({ setToken, setRole }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleLogin = async () => {
     try {
-      const data = await login(username, password);
+      const data = await login(username, password); // { accessToken, role }
       setToken(data.accessToken);
-      setError('');
-      navigate('/'); // редирект на список конференций
+      setRole(data.role);
+      localStorage.setItem('token', data.accessToken);
+      localStorage.setItem('role', data.role);
+      navigate('/conferences');
     } catch {
-      setError('Неверный логин или пароль');
+      alert('Ошибка входа');
     }
   };
 
   return (
     <div>
       <h2>Вход</h2>
-      <form onSubmit={handleSubmit}>
-        <input placeholder="Логин" value={username} onChange={e => setUsername(e.target.value)} />
-        <input type="password" placeholder="Пароль" value={password} onChange={e => setPassword(e.target.value)} />
-        <button type="submit">Войти</button>
-      </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <input placeholder="Логин" onChange={e => setUsername(e.target.value)} />
+      <input type="password" placeholder="Пароль" onChange={e => setPassword(e.target.value)} />
+      <button onClick={handleLogin}>Войти</button>
     </div>
   );
 };

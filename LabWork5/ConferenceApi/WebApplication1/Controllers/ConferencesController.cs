@@ -88,7 +88,32 @@ public class ConferencesController : ControllerBase
         if (existing == null)
             return NotFound(new ErrorResponse { Error = "not_found", Message = "Конференция не найдена" });
 
-        // Обновляем поля
+        // 1. Проверка тела запроса
+        if (conf == null)
+            return BadRequest(new ErrorResponse { Error = "invalid_request", Message = "Тело запроса отсутствует или некорректно" });
+
+        // 2. Проверка обязательных полей
+        if (string.IsNullOrWhiteSpace(conf.Name))
+            return BadRequest(new ErrorResponse { Error = "validation_error", Message = "Название конференции обязательно" });
+
+        if (string.IsNullOrWhiteSpace(conf.StartDate))
+            return BadRequest(new ErrorResponse { Error = "validation_error", Message = "Дата начала конференции обязательна" });
+
+        if (string.IsNullOrWhiteSpace(conf.EndDate))
+            return BadRequest(new ErrorResponse { Error = "validation_error", Message = "Дата окончания конференции обязательна" });
+
+        if (string.IsNullOrWhiteSpace(conf.Location))
+            return BadRequest(new ErrorResponse { Error = "validation_error", Message = "Место проведения конференции обязательно" });
+
+        // 3. Проверка логики дат
+        if (!DateTime.TryParse(conf.StartDate, out var start) ||
+            !DateTime.TryParse(conf.EndDate, out var end))
+            return BadRequest(new ErrorResponse { Error = "validation_error", Message = "Некорректный формат дат (YYYY-MM-DD)" });
+
+        if (start >= end)
+            return BadRequest(new ErrorResponse { Error = "validation_error", Message = "Дата начала должна быть раньше даты окончания" });
+
+        // 4. Обновление полей и сохранение
         existing.Name = conf.Name;
         existing.StartDate = conf.StartDate;
         existing.EndDate = conf.EndDate;

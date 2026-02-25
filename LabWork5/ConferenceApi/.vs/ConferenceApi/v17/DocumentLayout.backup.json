@@ -1,93 +1,97 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\makar\\source\\repos\\ConferenceApi\\",
+  "WorkspaceRootPath": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\makar\\source\\repos\\conferenceapi\\webapplication1\\controllers\\votescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\controllers\\votescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\makar\\source\\repos\\conferenceapi\\webapplication1\\controllers\\talkscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\controllers\\talkscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\makar\\source\\repos\\conferenceapi\\webapplication1\\controllers\\speakerscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\controllers\\speakerscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\makar\\source\\repos\\conferenceapi\\webapplication1\\controllers\\slidescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\controllers\\slidescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\makar\\source\\repos\\conferenceapi\\webapplication1\\controllers\\schedulecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\controllers\\schedulecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\makar\\source\\repos\\conferenceapi\\webapplication1\\controllers\\conferencescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\controllers\\conferencescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\makar\\source\\repos\\conferenceapi\\webapplication1\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\gitrepositories\\paps_labs\\labwork5\\conferenceapi\\webapplication1\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\makar\\source\\repos\\conferenceapi\\webapplication1\\models\\conference.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\models\\conference.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\makar\\source\\repos\\conferenceapi\\webapplication1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\makar\\source\\repos\\conferenceapi\\webapplication1\\models\\jwtresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\models\\jwtresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\makar\\source\\repos\\conferenceapi\\webapplication1\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\gitrepositories\\paps_labs\\labwork5\\conferenceapi\\webapplication1\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\makar\\source\\repos\\conferenceapi\\webapplication1\\models\\loginrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\models\\loginrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\gitrepositories\\paps_labs\\labwork5\\conferenceapi\\webapplication1\\models\\jwtresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\models\\jwtresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\makar\\source\\repos\\conferenceapi\\webapplication1\\data\\conferencedbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\data\\conferencedbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\gitrepositories\\paps_labs\\labwork5\\conferenceapi\\webapplication1\\controllers\\conferencescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\controllers\\conferencescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\makar\\source\\repos\\conferenceapi\\webapplication1\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\gitrepositories\\paps_labs\\labwork5\\conferenceapi\\webapplication1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\makar\\source\\repos\\conferenceapi\\webapplication1\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\makar\\source\\repos\\conferenceapi\\webapplication1\\data\\dataseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\gitrepositories\\paps_labs\\labwork5\\conferenceapi\\webapplication1\\data\\dataseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\data\\dataseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\makar\\source\\repos\\conferenceapi\\webapplication1\\models\\vote.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\models\\vote.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\gitrepositories\\paps_labs\\labwork5\\conferenceapi\\webapplication1\\data\\conferencedbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\data\\conferencedbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\makar\\source\\repos\\conferenceapi\\webapplication1\\models\\speaker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\models\\speaker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\gitrepositories\\paps_labs\\labwork5\\conferenceapi\\webapplication1\\controllers\\talkscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\controllers\\talkscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\makar\\source\\repos\\conferenceapi\\webapplication1\\models\\talk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\gitrepositories\\paps_labs\\labwork5\\conferenceapi\\webapplication1\\controllers\\speakerscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\controllers\\speakerscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\gitrepositories\\paps_labs\\labwork5\\conferenceapi\\webapplication1\\models\\talk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\models\\talk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\makar\\source\\repos\\conferenceapi\\webapplication1\\models\\errorresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\gitrepositories\\paps_labs\\labwork5\\conferenceapi\\webapplication1\\models\\conference.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\models\\conference.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\gitrepositories\\paps_labs\\labwork5\\conferenceapi\\webapplication1\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\gitrepositories\\paps_labs\\labwork5\\conferenceapi\\webapplication1\\dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\gitrepositories\\paps_labs\\labwork5\\conferenceapi\\webapplication1\\conferenceapi.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\conferenceapi.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\gitrepositories\\paps_labs\\labwork5\\conferenceapi\\webapplication1\\controllers\\votescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\controllers\\votescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\gitrepositories\\paps_labs\\labwork5\\conferenceapi\\webapplication1\\controllers\\slidescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\controllers\\slidescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\gitrepositories\\paps_labs\\labwork5\\conferenceapi\\webapplication1\\controllers\\schedulecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\controllers\\schedulecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\gitrepositories\\paps_labs\\labwork5\\conferenceapi\\webapplication1\\models\\loginrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\models\\loginrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\gitrepositories\\paps_labs\\labwork5\\conferenceapi\\webapplication1\\models\\vote.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\models\\vote.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\gitrepositories\\paps_labs\\labwork5\\conferenceapi\\webapplication1\\models\\speaker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\models\\speaker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\gitrepositories\\paps_labs\\labwork5\\conferenceapi\\webapplication1\\models\\errorresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\models\\errorresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\makar\\source\\repos\\conferenceapi\\webapplication1\\data\\inmemorystore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\gitrepositories\\paps_labs\\labwork5\\conferenceapi\\webapplication1\\data\\inmemorystore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\data\\inmemorystore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\makar\\source\\repos\\conferenceapi\\webapplication1\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\gitrepositories\\paps_labs\\labwork5\\conferenceapi\\webapplication1\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -98,7 +102,7 @@
       "DocumentGroups": [
         {
           "DockedHeight": 368,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Bookmark",
@@ -114,293 +118,291 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "AuthController.cs",
-              "DocumentMoniker": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Controllers\\AuthController.cs",
-              "RelativeDocumentMoniker": "WebApplication1\\Controllers\\AuthController.cs",
-              "ToolTip": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Controllers\\AuthController.cs",
-              "RelativeToolTip": "WebApplication1\\Controllers\\AuthController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-29T17:57:50.225Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ConferencesController.cs",
-              "DocumentMoniker": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Controllers\\ConferencesController.cs",
-              "RelativeDocumentMoniker": "WebApplication1\\Controllers\\ConferencesController.cs",
-              "ToolTip": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Controllers\\ConferencesController.cs",
-              "RelativeToolTip": "WebApplication1\\Controllers\\ConferencesController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-29T17:58:57.299Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "ScheduleController.cs",
-              "DocumentMoniker": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Controllers\\ScheduleController.cs",
-              "RelativeDocumentMoniker": "WebApplication1\\Controllers\\ScheduleController.cs",
-              "ToolTip": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Controllers\\ScheduleController.cs",
-              "RelativeToolTip": "WebApplication1\\Controllers\\ScheduleController.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAwAsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-29T18:04:46.047Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "SlidesController.cs",
-              "DocumentMoniker": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Controllers\\SlidesController.cs",
-              "RelativeDocumentMoniker": "WebApplication1\\Controllers\\SlidesController.cs",
-              "ToolTip": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Controllers\\SlidesController.cs",
-              "RelativeToolTip": "WebApplication1\\Controllers\\SlidesController.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-29T18:03:34.498Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "SpeakersController.cs",
-              "DocumentMoniker": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Controllers\\SpeakersController.cs",
-              "RelativeDocumentMoniker": "WebApplication1\\Controllers\\SpeakersController.cs",
-              "ToolTip": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Controllers\\SpeakersController.cs",
-              "RelativeToolTip": "WebApplication1\\Controllers\\SpeakersController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-29T18:06:42.111Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "TalksController.cs",
-              "DocumentMoniker": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Controllers\\TalksController.cs",
-              "RelativeDocumentMoniker": "WebApplication1\\Controllers\\TalksController.cs",
-              "ToolTip": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Controllers\\TalksController.cs",
-              "RelativeToolTip": "WebApplication1\\Controllers\\TalksController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-29T17:59:32.438Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "VotesController.cs",
-              "DocumentMoniker": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Controllers\\VotesController.cs",
-              "RelativeDocumentMoniker": "WebApplication1\\Controllers\\VotesController.cs",
-              "ToolTip": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Controllers\\VotesController.cs",
-              "RelativeToolTip": "WebApplication1\\Controllers\\VotesController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T10:13:04.057Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Conference.cs",
-              "DocumentMoniker": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Models\\Conference.cs",
-              "RelativeDocumentMoniker": "WebApplication1\\Models\\Conference.cs",
-              "ToolTip": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Models\\Conference.cs",
-              "RelativeToolTip": "WebApplication1\\Models\\Conference.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-29T17:53:12.795Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
               "Title": "Program.cs",
-              "DocumentMoniker": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Program.cs",
+              "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Program.cs",
               "RelativeDocumentMoniker": "WebApplication1\\Program.cs",
-              "ToolTip": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Program.cs",
+              "ToolTip": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Program.cs",
               "RelativeToolTip": "WebApplication1\\Program.cs",
-              "ViewState": "AgIAADUAAAAAAAAAAAAjwEUAAAAEAAAAAAAAAA==",
+              "ViewState": "AgIAADkAAAAAAAAAAAAAAEQAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-30T17:50:33.928Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "JwtResponse.cs",
-              "DocumentMoniker": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Models\\JwtResponse.cs",
-              "RelativeDocumentMoniker": "WebApplication1\\Models\\JwtResponse.cs",
-              "ToolTip": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Models\\JwtResponse.cs",
-              "RelativeToolTip": "WebApplication1\\Models\\JwtResponse.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAABAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "ConferencesController.cs",
+              "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Controllers\\ConferencesController.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Controllers\\ConferencesController.cs",
+              "ToolTip": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Controllers\\ConferencesController.cs",
+              "RelativeToolTip": "WebApplication1\\Controllers\\ConferencesController.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAQwHsAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-29T17:56:08.29Z",
+              "WhenOpened": "2026-01-29T17:58:57.299Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\appsettings.json",
-              "RelativeDocumentMoniker": "WebApplication1\\appsettings.json",
-              "ToolTip": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\appsettings.json",
-              "RelativeToolTip": "WebApplication1\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-02-22T15:33:19.187Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "User.cs",
-              "DocumentMoniker": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Models\\User.cs",
-              "RelativeDocumentMoniker": "WebApplication1\\Models\\User.cs",
-              "ToolTip": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Models\\User.cs",
-              "RelativeToolTip": "WebApplication1\\Models\\User.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAA6AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-22T15:51:24.534Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "AuthService.cs",
-              "DocumentMoniker": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Services\\AuthService.cs",
-              "RelativeDocumentMoniker": "WebApplication1\\Services\\AuthService.cs",
-              "ToolTip": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Services\\AuthService.cs",
-              "RelativeToolTip": "WebApplication1\\Services\\AuthService.cs",
-              "ViewState": "AgIAACoAAAAAAAAAAAAYwD0AAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-22T15:53:19.049Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{e5c86464-96be-4d7c-9a8b-abcb3bbf5f92}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "LoginRequest.cs",
-              "DocumentMoniker": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Models\\LoginRequest.cs",
-              "RelativeDocumentMoniker": "WebApplication1\\Models\\LoginRequest.cs",
-              "ToolTip": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Models\\LoginRequest.cs",
-              "RelativeToolTip": "WebApplication1\\Models\\LoginRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-29T17:55:43.152Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "ConferenceDbContext.cs",
-              "DocumentMoniker": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Data\\ConferenceDbContext.cs",
-              "RelativeDocumentMoniker": "WebApplication1\\Data\\ConferenceDbContext.cs",
-              "ToolTip": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Data\\ConferenceDbContext.cs",
-              "RelativeToolTip": "WebApplication1\\Data\\ConferenceDbContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAuAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-22T15:34:08.507Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 5,
               "Title": "DataSeeder.cs",
-              "DocumentMoniker": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Data\\DataSeeder.cs",
+              "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Data\\DataSeeder.cs",
               "RelativeDocumentMoniker": "WebApplication1\\Data\\DataSeeder.cs",
-              "ToolTip": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Data\\DataSeeder.cs",
+              "ToolTip": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Data\\DataSeeder.cs",
               "RelativeToolTip": "WebApplication1\\Data\\DataSeeder.cs",
-              "ViewState": "AgIAABwAAAAAAAAAAAAQwDgAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-30T17:50:19.26Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "Talk.cs",
-              "DocumentMoniker": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Models\\Talk.cs",
-              "RelativeDocumentMoniker": "WebApplication1\\Models\\Talk.cs",
-              "ToolTip": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Models\\Talk.cs",
-              "RelativeToolTip": "WebApplication1\\Models\\Talk.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
+              "DocumentIndex": 6,
+              "Title": "ConferenceDbContext.cs",
+              "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Data\\ConferenceDbContext.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Data\\ConferenceDbContext.cs",
+              "ToolTip": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Data\\ConferenceDbContext.cs",
+              "RelativeToolTip": "WebApplication1\\Data\\ConferenceDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-22T15:17:04.119Z",
+              "WhenOpened": "2026-02-22T15:34:08.507Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "ErrorResponse.cs",
-              "DocumentMoniker": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Models\\ErrorResponse.cs",
-              "RelativeDocumentMoniker": "WebApplication1\\Models\\ErrorResponse.cs",
-              "ToolTip": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Models\\ErrorResponse.cs",
-              "RelativeToolTip": "WebApplication1\\Models\\ErrorResponse.cs",
+              "DocumentIndex": 1,
+              "Title": "AuthService.cs",
+              "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Services\\AuthService.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Services\\AuthService.cs",
+              "ToolTip": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Services\\AuthService.cs",
+              "RelativeToolTip": "WebApplication1\\Services\\AuthService.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAgwCAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-24T16:59:49.675Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Controllers\\AuthController.cs",
+              "ToolTip": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "WebApplication1\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAACEAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-29T17:57:50.225Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "JwtResponse.cs",
+              "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Models\\JwtResponse.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Models\\JwtResponse.cs",
+              "ToolTip": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Models\\JwtResponse.cs",
+              "RelativeToolTip": "WebApplication1\\Models\\JwtResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-29T17:56:08.29Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "TalksController.cs",
+              "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Controllers\\TalksController.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Controllers\\TalksController.cs",
+              "ToolTip": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Controllers\\TalksController.cs",
+              "RelativeToolTip": "WebApplication1\\Controllers\\TalksController.cs",
+              "ViewState": "AgIAAH0AAAAAAAAAAAAuwEEAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-29T17:59:32.438Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "SpeakersController.cs",
+              "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Controllers\\SpeakersController.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Controllers\\SpeakersController.cs",
+              "ToolTip": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Controllers\\SpeakersController.cs",
+              "RelativeToolTip": "WebApplication1\\Controllers\\SpeakersController.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABMAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-29T18:06:42.111Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Talk.cs",
+              "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Models\\Talk.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Models\\Talk.cs",
+              "ToolTip": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Models\\Talk.cs",
+              "RelativeToolTip": "WebApplication1\\Models\\Talk.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-29T17:55:19.56Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-22T15:17:04.119Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "InMemoryStore.cs",
-              "DocumentMoniker": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Data\\InMemoryStore.cs",
-              "RelativeDocumentMoniker": "WebApplication1\\Data\\InMemoryStore.cs",
-              "ToolTip": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Data\\InMemoryStore.cs",
-              "RelativeToolTip": "WebApplication1\\Data\\InMemoryStore.cs",
+              "DocumentIndex": 10,
+              "Title": "Conference.cs",
+              "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Models\\Conference.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Models\\Conference.cs",
+              "ToolTip": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Models\\Conference.cs",
+              "RelativeToolTip": "WebApplication1\\Models\\Conference.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-29T17:53:12.795Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\appsettings.json",
+              "RelativeDocumentMoniker": "WebApplication1\\appsettings.json",
+              "ToolTip": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\appsettings.json",
+              "RelativeToolTip": "WebApplication1\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-02-22T15:33:19.187Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "VotesController.cs",
+              "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Controllers\\VotesController.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Controllers\\VotesController.cs",
+              "ToolTip": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Controllers\\VotesController.cs",
+              "RelativeToolTip": "WebApplication1\\Controllers\\VotesController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-29T17:57:02.477Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-31T10:13:04.057Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Dockerfile",
+              "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Dockerfile",
+              "RelativeDocumentMoniker": "WebApplication1\\Dockerfile",
+              "ToolTip": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Dockerfile",
+              "RelativeToolTip": "WebApplication1\\Dockerfile",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-02-23T15:53:16.247Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "SlidesController.cs",
+              "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Controllers\\SlidesController.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Controllers\\SlidesController.cs",
+              "ToolTip": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Controllers\\SlidesController.cs",
+              "RelativeToolTip": "WebApplication1\\Controllers\\SlidesController.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-29T18:03:34.498Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 16,
-              "Title": "Vote.cs",
-              "DocumentMoniker": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Models\\Vote.cs",
-              "RelativeDocumentMoniker": "WebApplication1\\Models\\Vote.cs",
-              "ToolTip": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Models\\Vote.cs",
-              "RelativeToolTip": "WebApplication1\\Models\\Vote.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
+              "Title": "ScheduleController.cs",
+              "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Controllers\\ScheduleController.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Controllers\\ScheduleController.cs",
+              "ToolTip": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Controllers\\ScheduleController.cs",
+              "RelativeToolTip": "WebApplication1\\Controllers\\ScheduleController.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAwAsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-29T17:55:02.23Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-29T18:04:46.047Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "ConferenceApi",
+              "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\ConferenceApi.csproj",
+              "RelativeDocumentMoniker": "WebApplication1\\ConferenceApi.csproj",
+              "ToolTip": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\ConferenceApi.csproj",
+              "RelativeToolTip": "WebApplication1\\ConferenceApi.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-02-23T15:54:30.14Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 17,
-              "Title": "Speaker.cs",
-              "DocumentMoniker": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Models\\Speaker.cs",
-              "RelativeDocumentMoniker": "WebApplication1\\Models\\Speaker.cs",
-              "ToolTip": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Models\\Speaker.cs",
-              "RelativeToolTip": "WebApplication1\\Models\\Speaker.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
+              "Title": "LoginRequest.cs",
+              "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Models\\LoginRequest.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Models\\LoginRequest.cs",
+              "ToolTip": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Models\\LoginRequest.cs",
+              "RelativeToolTip": "WebApplication1\\Models\\LoginRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-29T17:54:47.375Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-29T17:55:43.152Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "ErrorResponse.cs",
+              "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Models\\ErrorResponse.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Models\\ErrorResponse.cs",
+              "ToolTip": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Models\\ErrorResponse.cs",
+              "RelativeToolTip": "WebApplication1\\Models\\ErrorResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-29T17:55:19.56Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 21,
+              "Title": "InMemoryStore.cs",
+              "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Data\\InMemoryStore.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Data\\InMemoryStore.cs",
+              "ToolTip": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Data\\InMemoryStore.cs",
+              "RelativeToolTip": "WebApplication1\\Data\\InMemoryStore.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-29T17:57:02.477Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Vote.cs",
+              "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Models\\Vote.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Models\\Vote.cs",
+              "ToolTip": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Models\\Vote.cs",
+              "RelativeToolTip": "WebApplication1\\Models\\Vote.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-29T17:55:02.23Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Speaker.cs",
+              "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Models\\Speaker.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Models\\Speaker.cs",
+              "ToolTip": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Models\\Speaker.cs",
+              "RelativeToolTip": "WebApplication1\\Models\\Speaker.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-29T17:54:47.375Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
               "Title": "WeatherForecastController.cs",
-              "DocumentMoniker": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Controllers\\WeatherForecastController.cs",
+              "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Controllers\\WeatherForecastController.cs",
               "RelativeDocumentMoniker": "WebApplication1\\Controllers\\WeatherForecastController.cs",
-              "ToolTip": "D:\\makar\\source\\repos\\ConferenceApi\\WebApplication1\\Controllers\\WeatherForecastController.cs",
+              "ToolTip": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Controllers\\WeatherForecastController.cs",
               "RelativeToolTip": "WebApplication1\\Controllers\\WeatherForecastController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-29T17:57:19.632Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-29T17:57:19.632Z"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e5c86464-96be-4d7c-9a8b-abcb3bbf5f92}"
             }
           ]
         }

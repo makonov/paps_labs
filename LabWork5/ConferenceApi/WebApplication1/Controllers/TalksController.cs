@@ -63,8 +63,8 @@ public class TalksController : ControllerBase
         if (string.IsNullOrWhiteSpace(talk.Title))
             return BadRequest(new ErrorResponse { Error = "validation_error", Message = "Название доклада обязательно" });
 
-        if (talk.SpeakerId <= 0)
-            return BadRequest(new ErrorResponse { Error = "validation_error", Message = "ID спикера обязателен и должен быть положительным числом" });
+        if (talk.SpeakerId == null)
+            return BadRequest(new ErrorResponse { Error = "validation_error", Message = "ID спикера обязателен" });
 
         if (string.IsNullOrWhiteSpace(talk.StartTime))
             return BadRequest(new ErrorResponse { Error = "validation_error", Message = "Время начала доклада обязательно" });
@@ -104,7 +104,7 @@ public class TalksController : ControllerBase
         if (string.IsNullOrWhiteSpace(updatedTalk.Title))
             return BadRequest(new ErrorResponse { Error = "validation_error", Message = "Название доклада обязательно" });
 
-        if (updatedTalk.SpeakerId <= 0)
+        if (updatedTalk.SpeakerId == null)
             return BadRequest(new ErrorResponse { Error = "validation_error", Message = "ID спикера обязателен и должен быть положительным числом" });
 
         if (string.IsNullOrWhiteSpace(updatedTalk.StartTime))

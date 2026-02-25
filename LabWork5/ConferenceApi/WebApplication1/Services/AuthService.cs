@@ -20,13 +20,16 @@ namespace ConferenceApi.Services
             _secret = config["Jwt:Secret"]!;
         }
 
-        public string? Login(string username, string password)
+        public string? Login(string username, string password, out string? role)
         {
+            role = null;
             var user = _db.Users.FirstOrDefault(u => u.Username == username);
             if (user == null) return null;
 
             var result = _hasher.VerifyHashedPassword(user, user.PasswordHash, password);
             if (result == PasswordVerificationResult.Failed) return null;
+
+            role = user.Role; // <-- сохраняем роль
 
             var claims = new[]
             {
@@ -51,11 +54,29 @@ namespace ConferenceApi.Services
 
             var admin = new User
             {
-                Username = "organizer",
+                Username = "user1",
                 Role = "organizer",
                 PasswordHash = _hasher.HashPassword(null!, "pass123")
             };
             _db.Users.Add(admin);
+            _db.SaveChanges();
+
+            var speaker = new User
+            {
+                Username = "user2",
+                Role = "speaker",
+                PasswordHash = _hasher.HashPassword(null!, "pass123")
+            };
+            _db.Users.Add(speaker);
+            _db.SaveChanges();
+
+            var participant = new User
+            {
+                Username = "user3",
+                Role = "participant",
+                PasswordHash = _hasher.HashPassword(null!, "pass123")
+            };
+            _db.Users.Add(participant);
             _db.SaveChanges();
         }
     }

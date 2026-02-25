@@ -26,10 +26,10 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public IActionResult Login([FromBody] LoginRequest request)
     {
-        var token = _auth.Login(request.Username, request.Password);
+        var token = _auth.Login(request.Username, request.Password, out string? role);
         if (token == null)
             return Unauthorized(new { error = "invalid_credentials", message = "Неверный логин или пароль" });
 
-        return Ok(new JwtResponse { AccessToken = token });
+        return Ok(new JwtResponse { AccessToken = token, Role = role });
     }
 }
