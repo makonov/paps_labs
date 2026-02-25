@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [ "LabWork5" ]
+  pull_request:
+    branches: [ "LabWork5" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build containers
+      run: docker compose build
+
+    - name: Run containers
+      run: docker compose up -d
+
+    - name: Wait for API
+      run: sleep 15
+
+    # -----------------------------
+    # Добавляем шаг для интеграционных тестов
+    - name: Install Newman
+      run: npm install -g newman
+
+    - name: Run Postman tests
+      run: newman run ./postman_collection.json || exit 1
+
+    # -----------------------------
+    - name: Stop containers
+      run: docker compose down
