@@ -92,7 +92,7 @@
           }
         },
         "url": {
-          "raw": "https://localhost:7212/auth/login",
+          "raw": "{{API_URL}}/auth/login",
           "protocol": "https",
           "host": [
             "localhost"
@@ -175,7 +175,7 @@
           }
         },
         "url": {
-          "raw": "https://localhost:7212/api/v1/conferences/1",
+          "raw": "{{API_URL}}/api/v1/conferences/1",
           "protocol": "https",
           "host": [
             "localhost"
@@ -236,7 +236,7 @@
           }
         },
         "url": {
-          "raw": "https://localhost:7212/api/v1/conferences/9999",
+          "raw": "{{API_URL}}/api/v1/conferences/9999",
           "protocol": "https",
           "host": [
             "localhost"
@@ -308,7 +308,7 @@
           }
         },
         "url": {
-          "raw": "https://localhost:7212/api/v1/conferences",
+          "raw": "{{API_URL}}/api/v1/conferences",
           "protocol": "https",
           "host": [
             "localhost"
@@ -375,7 +375,7 @@
           }
         },
         "url": {
-          "raw": "https://localhost:7212/api/v1/conferences",
+          "raw": "{{API_URL}}/api/v1/conferences",
           "protocol": "https",
           "host": [
             "localhost"
@@ -429,7 +429,7 @@
           }
         },
         "url": {
-          "raw": "https://localhost:7212/api/v1/conferences",
+          "raw": "{{API_URL}}/api/v1/conferences",
           "protocol": "https",
           "host": [
             "localhost"
@@ -524,7 +524,7 @@
           }
         },
         "url": {
-          "raw": "https://localhost:7212/api/v1/conferences/1/schedule",
+          "raw": "{{API_URL}}/api/v1/conferences/1/schedule",
           "protocol": "https",
           "host": [
             "localhost"
@@ -586,7 +586,7 @@
           }
         },
         "url": {
-          "raw": "https://localhost:7212/api/v1/conferences/9999/schedule",
+          "raw": "{{API_URL}}/api/v1/conferences/9999/schedule",
           "protocol": "https",
           "host": [
             "localhost"
@@ -659,7 +659,7 @@
           }
         },
         "url": {
-          "raw": "https://localhost:7212/api/v1/conferences/1/talks",
+          "raw": "{{API_URL}}/api/v1/conferences/1/talks",
           "protocol": "https",
           "host": [
             "localhost"
@@ -728,7 +728,7 @@
           }
         },
         "url": {
-          "raw": "https://localhost:7212/api/v1/conferences/1/talks",
+          "raw": "{{API_URL}}/api/v1/conferences/1/talks",
           "protocol": "https",
           "host": [
             "localhost"
@@ -801,7 +801,7 @@
           }
         },
         "url": {
-          "raw": "https://localhost:7212/api/v1/conferences/1/talks/1/votes",
+          "raw": "{{API_URL}}/api/v1/conferences/1/talks/1/votes",
           "protocol": "https",
           "host": [
             "localhost"
@@ -872,7 +872,7 @@
           }
         },
         "url": {
-          "raw": "https://localhost:7212/api/v1/conferences/1/talks/1/votes",
+          "raw": "{{API_URL}}/api/v1/conferences/1/talks/1/votes",
           "protocol": "https",
           "host": [
             "localhost"
@@ -945,7 +945,7 @@
           }
         },
         "url": {
-          "raw": "https://localhost:7212/api/v1/conferences/1/talks/1",
+          "raw": "{{API_URL}}/api/v1/conferences/1/talks/1",
           "protocol": "https",
           "host": [
             "localhost"
@@ -1020,7 +1020,7 @@
           }
         },
         "url": {
-          "raw": "https://localhost:7212/api/v1/conferences/999/talks/1",
+          "raw": "{{API_URL}}/api/v1/conferences/999/talks/1",
           "protocol": "https",
           "host": [
             "localhost"
@@ -1081,7 +1081,7 @@
           }
         },
         "url": {
-          "raw": "https://localhost:7212/api/v1/conferences/1/talks/1",
+          "raw": "{{API_URL}}/api/v1/conferences/1/talks/1",
           "protocol": "https",
           "host": [
             "localhost"
@@ -1142,7 +1142,7 @@
           }
         },
         "url": {
-          "raw": "https://localhost:7212/api/v1/conferences/1/talks/1",
+          "raw": "{{API_URL}}/api/v1/conferences/1/talks/1",
           "protocol": "https",
           "host": [
             "localhost"
@@ -1211,7 +1211,7 @@
           }
         },
         "url": {
-          "raw": "https://localhost:7212/api/v1/conferences/1/talks/1",
+          "raw": "{{API_URL}}/api/v1/conferences/1/talks/1",
           "protocol": "https",
           "host": [
             "localhost"
