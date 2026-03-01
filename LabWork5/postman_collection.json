@@ -799,124 +799,6 @@
       "response": []
     },
     {
-      "name": "Успешное удаление существующего доклада",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Статус ответа 204 No Content — удаление успешно\", function () {\r",
-              "    pm.response.to.have.status(204);\r",
-              "});\r",
-              "\r",
-              "pm.test(\"Тело ответа пустое\", function () {\r",
-              "    pm.expect(pm.response.text()).to.be.empty;\r",
-              "});"
-            ],
-            "type": "text/javascript",
-            "packages": {},
-            "requests": {}
-          }
-        }
-      ],
-      "request": {
-        "auth": {
-          "type": "noauth"
-        },
-        "method": "DELETE",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{jwt_token}}",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{API_URL}}/api/v1/conferences/1/talks/1",
-          "host": [
-            "{{API_URL}}"
-          ],
-          "path": [
-            "api",
-            "v1",
-            "conferences",
-            "1",
-            "talks",
-            "1"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Повторное удаление уже удаленного доклада",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Статус ответа 204 No Content при повторном удалении\", function () {\r",
-              "    pm.response.to.have.status(204);\r",
-              "});\r",
-              "\r",
-              "pm.test(\"Повторный DELETE идемпотентен — тело пустое\", function () {\r",
-              "    pm.expect(pm.response.text()).to.be.empty;\r",
-              "});"
-            ],
-            "type": "text/javascript",
-            "packages": {},
-            "requests": {}
-          }
-        }
-      ],
-      "request": {
-        "auth": {
-          "type": "noauth"
-        },
-        "method": "DELETE",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{jwt_token}}",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{API_URL}}/api/v1/conferences/1/talks/1",
-          "host": [
-            "{{API_URL}}"
-          ],
-          "path": [
-            "api",
-            "v1",
-            "conferences",
-            "1",
-            "talks",
-            "1"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
       "name": "Запрос удаленного доклада (проверка)",
       "event": [
         {
@@ -1168,6 +1050,172 @@
             "talks",
             "1",
             "votes"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Успешная авторизация (роль speaker) 2",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Статус 200 OK\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Есть accessToken\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.have.property(\"accessToken\");\r",
+              "    pm.environment.set(\"jwt_token\", jsonData.accessToken);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"username\": \"user2\",\r\n  \"password\": \"pass123\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{API_URL}}/auth/login",
+          "host": [
+            "{{API_URL}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Успешное удаление существующего доклада",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Статус ответа 204 No Content — удаление успешно\", function () {\r",
+              "    pm.response.to.have.status(204);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Тело ответа пустое\", function () {\r",
+              "    pm.expect(pm.response.text()).to.be.empty;\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{jwt_token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{API_URL}}/api/v1/conferences/1/talks/1",
+          "host": [
+            "{{API_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "conferences",
+            "1",
+            "talks",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Повторное удаление уже удаленного доклада",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Статус ответа 204 No Content при повторном удалении\", function () {\r",
+              "    pm.response.to.have.status(204);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Повторный DELETE идемпотентен — тело пустое\", function () {\r",
+              "    pm.expect(pm.response.text()).to.be.empty;\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{jwt_token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{API_URL}}/api/v1/conferences/1/talks/1",
+          "host": [
+            "{{API_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "conferences",
+            "1",
+            "talks",
+            "1"
           ]
         }
       },
