@@ -678,7 +678,7 @@
               "pm.test(\"Есть понятное сообщение об ошибке\", function () {\r",
               "    var jsonData = pm.response.json();\r",
               "    pm.expect(jsonData).to.have.property(\"message\");\r",
-              "    pm.expect(jsonData.message).to.include(\"Конференция не найдена\");\r",
+              "    pm.expect(jsonData.message).to.include(\"Доклад не найден\");\r",
               "});\r",
               "\r",
               "pm.test(\"Нет обновлённых полей в ответе об ошибке\", function () {\r",
@@ -1051,7 +1051,7 @@
               "pm.test(\"Голос положительный и participantId совпадает\", function () {\r",
               "    var jsonData = pm.response.json();\r",
               "    pm.expect(jsonData.value).to.be.true;\r",
-              "    pm.expect(jsonData.participantId).to.equal(1004);\r",
+              "    pm.expect(jsonData.participantId).to.equal(3);\r",
               "});\r",
               "\r",
               "pm.test(\"talkId в ответе совпадает с переданным\", function () {\r",
@@ -1079,7 +1079,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n  \"participantId\": 1004,\r\n  \"value\": true\r\n}",
+          "raw": "{\r\n  \"participantId\": 3,\r\n  \"value\": true\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1148,7 +1148,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n  \"participantId\": 1004,\r\n  \"value\": true\r\n}",
+          "raw": "{\r\n  \"participantId\": 3,\r\n  \"value\": true\r\n}",
           "options": {
             "raw": {
               "language": "json"
