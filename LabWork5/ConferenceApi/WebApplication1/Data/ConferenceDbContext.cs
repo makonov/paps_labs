@@ -13,7 +13,13 @@
                 .HasMany(c => c.Talks)
                 .WithOne(t => t.Conference)
                 .HasForeignKey(t => t.ConferenceId)
-                .OnDelete(DeleteBehavior.Cascade); // <- каскадное удаление
+                .OnDelete(DeleteBehavior.Cascade); 
+
+            modelBuilder.Entity<Talk>()
+                .HasMany(t => t.Votes)
+                .WithOne(v => v.Talk)
+                .HasForeignKey(v => v.TalkId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(modelBuilder);
         }

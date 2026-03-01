@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\gitrepositories\\paps_labs\\labwork5\\conferenceapi\\webapplication1\\data\\conferencedbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\data\\conferencedbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\gitrepositories\\paps_labs\\labwork5\\conferenceapi\\webapplication1\\models\\talk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\models\\talk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\gitrepositories\\paps_labs\\labwork5\\conferenceapi\\webapplication1\\controllers\\votescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\controllers\\votescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -31,10 +39,6 @@
       "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\controllers\\slidescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\gitrepositories\\paps_labs\\labwork5\\conferenceapi\\webapplication1\\models\\talk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\models\\talk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\gitrepositories\\paps_labs\\labwork5\\conferenceapi\\webapplication1\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -45,10 +49,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\gitrepositories\\paps_labs\\labwork5\\conferenceapi\\webapplication1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\gitrepositories\\paps_labs\\labwork5\\conferenceapi\\webapplication1\\data\\conferencedbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|solutionrelative:webapplication1\\data\\conferencedbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5706D135-7910-4393-8D9F-CD832713BBF4}|WebApplication1\\ConferenceApi.csproj|d:\\gitrepositories\\paps_labs\\labwork5\\conferenceapi\\webapplication1\\controllers\\speakerscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -115,6 +115,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "ConferenceDbContext.cs",
+              "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Data\\ConferenceDbContext.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Data\\ConferenceDbContext.cs",
+              "ToolTip": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Data\\ConferenceDbContext.cs",
+              "RelativeToolTip": "WebApplication1\\Data\\ConferenceDbContext.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAkAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-01T15:04:57.671Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "VotesController.cs",
               "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Controllers\\VotesController.cs",
               "RelativeDocumentMoniker": "WebApplication1\\Controllers\\VotesController.cs",
@@ -122,38 +135,11 @@
               "RelativeToolTip": "WebApplication1\\Controllers\\VotesController.cs",
               "ViewState": "AgIAACEAAAAAAAAAAAAYwDEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-01T14:39:19.177Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "AuthController.cs",
-              "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Controllers\\AuthController.cs",
-              "RelativeDocumentMoniker": "WebApplication1\\Controllers\\AuthController.cs",
-              "ToolTip": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Controllers\\AuthController.cs",
-              "RelativeToolTip": "WebApplication1\\Controllers\\AuthController.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-29T17:57:50.225Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-01T14:39:19.177Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "DataSeeder.cs",
-              "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Data\\DataSeeder.cs",
-              "RelativeDocumentMoniker": "WebApplication1\\Data\\DataSeeder.cs",
-              "ToolTip": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Data\\DataSeeder.cs",
-              "RelativeToolTip": "WebApplication1\\Data\\DataSeeder.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-30T17:50:19.26Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
               "Title": "Conference.cs",
               "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Models\\Conference.cs",
               "RelativeDocumentMoniker": "WebApplication1\\Models\\Conference.cs",
@@ -161,12 +147,11 @@
               "RelativeToolTip": "WebApplication1\\Models\\Conference.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-29T17:53:12.795Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-29T17:53:12.795Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "ConferencesController.cs",
               "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Controllers\\ConferencesController.cs",
               "RelativeDocumentMoniker": "WebApplication1\\Controllers\\ConferencesController.cs",
@@ -174,12 +159,11 @@
               "RelativeToolTip": "WebApplication1\\Controllers\\ConferencesController.cs",
               "ViewState": "AgIAABUAAAAAAAAAAAAmwEMAAABAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-29T17:58:57.299Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-29T17:58:57.299Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "TalksController.cs",
               "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Controllers\\TalksController.cs",
               "RelativeDocumentMoniker": "WebApplication1\\Controllers\\TalksController.cs",
@@ -187,12 +171,11 @@
               "RelativeToolTip": "WebApplication1\\Controllers\\TalksController.cs",
               "ViewState": "AgIAADEAAAAAAAAAAAAmwDYAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-29T17:59:32.438Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-29T17:59:32.438Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "SlidesController.cs",
               "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Controllers\\SlidesController.cs",
               "RelativeDocumentMoniker": "WebApplication1\\Controllers\\SlidesController.cs",
@@ -200,25 +183,48 @@
               "RelativeToolTip": "WebApplication1\\Controllers\\SlidesController.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-29T18:03:34.498Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-29T18:03:34.498Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 1,
               "Title": "Talk.cs",
               "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Models\\Talk.cs",
               "RelativeDocumentMoniker": "WebApplication1\\Models\\Talk.cs",
               "ToolTip": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Models\\Talk.cs",
               "RelativeToolTip": "WebApplication1\\Models\\Talk.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-02-25T13:04:05.08Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 5,
+              "Title": "DataSeeder.cs",
+              "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Data\\DataSeeder.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Data\\DataSeeder.cs",
+              "ToolTip": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Data\\DataSeeder.cs",
+              "RelativeToolTip": "WebApplication1\\Data\\DataSeeder.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-30T17:50:19.26Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Controllers\\AuthController.cs",
+              "ToolTip": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "WebApplication1\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-29T17:57:50.225Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
               "Title": "JwtResponse.cs",
               "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Models\\JwtResponse.cs",
               "RelativeDocumentMoniker": "WebApplication1\\Models\\JwtResponse.cs",
@@ -230,7 +236,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "AuthService.cs",
               "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Services\\AuthService.cs",
               "RelativeDocumentMoniker": "WebApplication1\\Services\\AuthService.cs",
@@ -243,18 +249,6 @@
             {
               "$type": "Document",
               "DocumentIndex": 11,
-              "Title": "ConferenceDbContext.cs",
-              "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Data\\ConferenceDbContext.cs",
-              "RelativeDocumentMoniker": "WebApplication1\\Data\\ConferenceDbContext.cs",
-              "ToolTip": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Data\\ConferenceDbContext.cs",
-              "RelativeToolTip": "WebApplication1\\Data\\ConferenceDbContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-22T15:34:08.507Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\GitRepositories\\paps_labs\\LabWork5\\ConferenceApi\\WebApplication1\\Program.cs",
               "RelativeDocumentMoniker": "WebApplication1\\Program.cs",
