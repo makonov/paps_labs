@@ -45,7 +45,7 @@ public class VotesController : ControllerBase
         if (vote == null)
             return BadRequest(new ErrorResponse { Error = "invalid_request", Message = "Тело запроса отсутствует или некорректно" });
 
-        if (vote.ParticipantId <= 0)
+        if (vote.ParticipantId == null)
             return BadRequest(new ErrorResponse { Error = "validation_error", Message = "ID участника обязателен и должен быть положительным числом" });
 
         var confExists = await _db.Conferences.AnyAsync(c => c.Id == conferenceId);
