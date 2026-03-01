@@ -113,40 +113,24 @@
               "    pm.response.to.have.status(200);\r",
               "});\r",
               "\r",
-              "pm.test(\"В ответе есть поле id и оно равно 1\", function () {\r",
+              "pm.test(\"Типы данных корректные\", function () {\r",
               "    var jsonData = pm.response.json();\r",
-              "    pm.expect(jsonData).to.have.property(\"id\");\r",
-              "    pm.expect(jsonData.id).to.equal(1);\r",
-              "});\r",
-              "\r",
-              "pm.test(\"В ответе есть название конференции\", function () {\r",
-              "    var jsonData = pm.response.json();\r",
-              "    pm.expect(jsonData).to.have.property(\"name\");\r",
-              "    pm.expect(jsonData.name).to.be.a(\"string\");\r",
-              "    pm.expect(jsonData.name).to.not.be.empty;\r",
-              "});\r",
-              "\r",
-              "pm.test(\"Объект конференции имеет ожидаемую структуру и точные значения\", function () {\r",
-              "    var jsonData = pm.response.json();\r",
-              "\r",
-              "    pm.expect(jsonData).to.have.all.keys(\"id\", \"name\", \"startDate\", \"endDate\", \"location\");\r",
               "\r",
               "    pm.expect(jsonData.id).to.be.a(\"number\");\r",
               "    pm.expect(jsonData.name).to.be.a(\"string\");\r",
               "    pm.expect(jsonData.startDate).to.be.a(\"string\");\r",
               "    pm.expect(jsonData.endDate).to.be.a(\"string\");\r",
               "    pm.expect(jsonData.location).to.be.a(\"string\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Данные соответствуют сид-данным\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
               "\r",
               "    pm.expect(jsonData.id).to.equal(1);\r",
               "    pm.expect(jsonData.name).to.equal(\"DevConf Spring 2026\");\r",
               "    pm.expect(jsonData.startDate).to.equal(\"2026-04-15\");\r",
               "    pm.expect(jsonData.endDate).to.equal(\"2026-04-17\");\r",
               "    pm.expect(jsonData.location).to.equal(\"Санкт-Петербург\");\r",
-              "});\r",
-              "\r",
-              "pm.test(\"В объекте ровно 5 полей (нет лишних)\", function () {\r",
-              "    var jsonData = pm.response.json();\r",
-              "    pm.expect(Object.keys(jsonData).length).to.equal(5);\r",
               "});"
             ],
             "type": "text/javascript",
@@ -431,101 +415,6 @@
       "response": []
     },
     {
-      "name": "Успешное получение расписания",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Статус ответа 200 OK\", function () {\r",
-              "    pm.response.to.have.status(200);\r",
-              "});\r",
-              "\r",
-              "pm.test(\"Ответ — массив объектов докладов\", function () {\r",
-              "    var jsonData = pm.response.json();\r",
-              "    pm.expect(jsonData).to.be.an(\"array\");\r",
-              "});\r",
-              "\r",
-              "pm.test(\"В массиве минимум 2 доклада\", function () {\r",
-              "    var jsonData = pm.response.json();\r",
-              "    pm.expect(jsonData.length).to.be.at.least(2);\r",
-              "});\r",
-              "\r",
-              "pm.test(\"Каждый доклад имеет все ожидаемые поля\", function () {\r",
-              "    var jsonData = pm.response.json();\r",
-              "    \r",
-              "    jsonData.forEach(function(talk, index) {\r",
-              "        pm.expect(talk).to.have.all.keys(\r",
-              "            \"id\", \r",
-              "            \"conferenceId\", \r",
-              "            \"title\", \r",
-              "            \"speakerId\", \r",
-              "            \"startTime\", \r",
-              "            \"room\", \r",
-              "            \"slides\"\r",
-              "        );\r",
-              "        \r",
-              "        pm.expect(talk.id).to.be.a(\"number\");\r",
-              "        pm.expect(talk.conferenceId).to.be.a(\"number\");\r",
-              "        pm.expect(talk.title).to.be.a(\"string\").and.not.empty;\r",
-              "        pm.expect(talk.speakerId).to.be.a(\"number\");\r",
-              "        pm.expect(talk.startTime).to.be.a(\"string\").and.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}$/);\r",
-              "        pm.expect(talk.room).to.be.a(\"string\");\r",
-              "        pm.expect(talk.slides).to.be.a(\"string\"); // или null — но в твоём примере строка\r",
-              "    });\r",
-              "});\r",
-              "\r",
-              "pm.test(\"Первый доклад имеет ожидаемые значения\", function () {\r",
-              "    var jsonData = pm.response.json();\r",
-              "    var firstTalk = jsonData[0];\r",
-              "    \r",
-              "    pm.expect(firstTalk.id).to.equal(1);\r",
-              "    pm.expect(firstTalk.conferenceId).to.equal(1);\r",
-              "    pm.expect(firstTalk.title).to.equal(\"JWT авторизация в ASP.NET Core\");\r",
-              "    pm.expect(firstTalk.speakerId).to.equal(1);\r",
-              "    pm.expect(firstTalk.startTime).to.equal(\"2026-04-15T11:00\");\r",
-              "    pm.expect(firstTalk.room).to.equal(\"Зал 2\");\r",
-              "    pm.expect(firstTalk.slides).to.equal(\"https://slides.com/jwt-asp\");\r",
-              "});"
-            ],
-            "type": "text/javascript",
-            "packages": {},
-            "requests": {}
-          }
-        }
-      ],
-      "protocolProfileBehavior": {
-        "disableBodyPruning": true
-      },
-      "request": {
-        "method": "GET",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{API_URL}}/api/v1/conferences/1/schedule",
-          "host": [
-            "{{API_URL}}"
-          ],
-          "path": [
-            "api",
-            "v1",
-            "conferences",
-            "1",
-            "schedule"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
       "name": "Запрос расписания по несуществующей конференции",
       "event": [
         {
@@ -705,215 +594,6 @@
       "response": []
     },
     {
-      "name": "Ошибка валидации при создании доклада (отсутствует обязательное поле title)",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Статус ответа 400 Bad Request\", function () {\r",
-              "    pm.response.to.have.status(400);\r",
-              "});\r",
-              "\r",
-              "pm.test(\"Ошибка из-за отсутствия названия доклада\", function () {\r",
-              "    var jsonData = pm.response.json();\r",
-              "    pm.expect(jsonData).to.have.property(\"error\");\r",
-              "    pm.expect(jsonData.error).to.equal(\"validation_error\");\r",
-              "    pm.expect(jsonData).to.have.property(\"message\");\r",
-              "    pm.expect(jsonData.message).to.include(\"Название доклада обязательно\");\r",
-              "});\r",
-              "\r",
-              "pm.test(\"Нет поля id в ответе об ошибке\", function () {\r",
-              "    var jsonData = pm.response.json();\r",
-              "    pm.expect(jsonData).to.not.have.property(\"id\");\r",
-              "});"
-            ],
-            "type": "text/javascript",
-            "packages": {},
-            "requests": {}
-          }
-        }
-      ],
-      "request": {
-        "auth": {
-          "type": "noauth"
-        },
-        "method": "POST",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{jwt_token}}",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n  \"speakerId\": 1,\r\n  \"startTime\": \"2026-04-15T16:00\",\r\n  \"room\": \"Зал Г\",\r\n  \"slides\": \"https://example.com/slides.pdf\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{API_URL}}/api/v1/conferences/1/talks",
-          "host": [
-            "{{API_URL}}"
-          ],
-          "path": [
-            "api",
-            "v1",
-            "conferences",
-            "1",
-            "talks"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Успешное создание голоса",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Статус ответа 201 Created\", function () {\r",
-              "    pm.response.to.have.status(201);\r",
-              "});\r",
-              "\r",
-              "pm.test(\"В ответе есть сгенерированный id\", function () {\r",
-              "    var jsonData = pm.response.json();\r",
-              "    pm.expect(jsonData).to.have.property(\"id\");\r",
-              "    pm.expect(jsonData.id).to.be.a(\"number\").and.be.above(0);\r",
-              "});\r",
-              "\r",
-              "pm.test(\"Голос положительный и participantId совпадает\", function () {\r",
-              "    var jsonData = pm.response.json();\r",
-              "    pm.expect(jsonData.value).to.be.true;\r",
-              "    pm.expect(jsonData.participantId).to.equal(1004);\r",
-              "});\r",
-              "\r",
-              "pm.test(\"talkId в ответе совпадает с переданным\", function () {\r",
-              "    var jsonData = pm.response.json();\r",
-              "    pm.expect(jsonData.talkId).to.equal(1);\r",
-              "});"
-            ],
-            "type": "text/javascript",
-            "packages": {},
-            "requests": {}
-          }
-        }
-      ],
-      "request": {
-        "auth": {
-          "type": "noauth"
-        },
-        "method": "POST",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{jwt_token}}",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n  \"participantId\": 1004,\r\n  \"value\": true\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{API_URL}}/api/v1/conferences/1/talks/1/votes",
-          "host": [
-            "{{API_URL}}"
-          ],
-          "path": [
-            "api",
-            "v1",
-            "conferences",
-            "1",
-            "talks",
-            "1",
-            "votes"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Попытка повторного голосования",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Статус ответа 409 Conflict при повторном голосовании\", function () {\r",
-              "    pm.response.to.have.status(409);\r",
-              "});\r",
-              "\r",
-              "pm.test(\"Ошибка уже проголосовал\", function () {\r",
-              "    var jsonData = pm.response.json();\r",
-              "    pm.expect(jsonData).to.have.property(\"error\");\r",
-              "    pm.expect(jsonData.error).to.equal(\"already_voted\");\r",
-              "    pm.expect(jsonData).to.have.property(\"message\");\r",
-              "    pm.expect(jsonData.message).to.include(\"уже проголосовал\");\r",
-              "});\r",
-              "\r",
-              "pm.test(\"Нет поля id в ответе об ошибке\", function () {\r",
-              "    var jsonData = pm.response.json();\r",
-              "    pm.expect(jsonData).to.not.have.property(\"id\");\r",
-              "});"
-            ],
-            "type": "text/javascript",
-            "packages": {},
-            "requests": {}
-          }
-        }
-      ],
-      "request": {
-        "auth": {
-          "type": "noauth"
-        },
-        "method": "POST",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{jwt_token}}",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n  \"participantId\": 1004,\r\n  \"value\": true\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{API_URL}}/api/v1/conferences/1/talks/1/votes",
-          "host": [
-            "{{API_URL}}"
-          ],
-          "path": [
-            "api",
-            "v1",
-            "conferences",
-            "1",
-            "talks",
-            "1",
-            "votes"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
       "name": "Успешное обновление доклада",
       "event": [
         {
@@ -932,11 +612,6 @@
               "pm.test(\"Комната обновлена\", function () {\r",
               "    var jsonData = pm.response.json();\r",
               "    pm.expect(jsonData.room).to.equal(\"Зал А (обновлено)\");\r",
-              "});\r",
-              "\r",
-              "pm.test(\"Все поля присутствуют\", function () {\r",
-              "    var jsonData = pm.response.json();\r",
-              "    pm.expect(jsonData).to.have.all.keys(\"id\", \"conferenceId\", \"title\", \"speakerId\", \"startTime\", \"room\", \"slides\");\r",
               "});"
             ],
             "type": "text/javascript",
@@ -1051,6 +726,73 @@
             "999",
             "talks",
             "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Ошибка валидации при создании доклада (отсутствует обязательное поле title)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Статус ответа 400 Bad Request\", function () {\r",
+              "    pm.response.to.have.status(400);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Ошибка из-за отсутствия названия доклада\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.have.property(\"error\");\r",
+              "    pm.expect(jsonData.error).to.equal(\"validation_error\");\r",
+              "    pm.expect(jsonData).to.have.property(\"message\");\r",
+              "    pm.expect(jsonData.message).to.include(\"Название доклада обязательно\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Нет поля id в ответе об ошибке\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.not.have.property(\"id\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{jwt_token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"speakerId\": 1,\r\n  \"startTime\": \"2026-04-15T16:00\",\r\n  \"room\": \"Зал Г\",\r\n  \"slides\": \"https://example.com/slides.pdf\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{API_URL}}/api/v1/conferences/1/talks",
+          "host": [
+            "{{API_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "conferences",
+            "1",
+            "talks"
           ]
         }
       },
@@ -1236,6 +978,196 @@
             "1",
             "talks",
             "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Успешная авторизация (роль participant)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Статус 200 OK\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Есть accessToken\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.have.property(\"accessToken\");\r",
+              "    pm.environment.set(\"jwt_token\", jsonData.accessToken);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"username\": \"user3\",\r\n  \"password\": \"pass123\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{API_URL}}/auth/login",
+          "host": [
+            "{{API_URL}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Успешное создание голоса",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Статус ответа 201 Created\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"В ответе есть сгенерированный id\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.have.property(\"id\");\r",
+              "    pm.expect(jsonData.id).to.be.a(\"number\").and.be.above(0);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Голос положительный и participantId совпадает\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.value).to.be.true;\r",
+              "    pm.expect(jsonData.participantId).to.equal(1004);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"talkId в ответе совпадает с переданным\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.talkId).to.equal(1);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{jwt_token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"participantId\": 1004,\r\n  \"value\": true\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{API_URL}}/api/v1/conferences/1/talks/1/votes",
+          "host": [
+            "{{API_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "conferences",
+            "1",
+            "talks",
+            "1",
+            "votes"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Попытка повторного голосования",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Статус ответа 409 Conflict при повторном голосовании\", function () {\r",
+              "    pm.response.to.have.status(409);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Ошибка уже проголосовал\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.have.property(\"error\");\r",
+              "    pm.expect(jsonData.error).to.equal(\"already_voted\");\r",
+              "    pm.expect(jsonData).to.have.property(\"message\");\r",
+              "    pm.expect(jsonData.message).to.include(\"уже проголосовал\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Нет поля id в ответе об ошибке\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.not.have.property(\"id\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{jwt_token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"participantId\": 1004,\r\n  \"value\": true\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{API_URL}}/api/v1/conferences/1/talks/1/votes",
+          "host": [
+            "{{API_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "conferences",
+            "1",
+            "talks",
+            "1",
+            "votes"
           ]
         }
       },
