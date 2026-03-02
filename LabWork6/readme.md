@@ -532,7 +532,7 @@ public class ConferenceScheduler
 - повысить гибкость системы.
 
 
-## 3. UML-диаграмма
+## 3. Диаграмма
 ```mermaid
 classDiagram
     %% Прототипы
@@ -747,3 +747,122 @@ class Program
 ## Структурные шаблоны  
 ### Adapter (Адаптер)
 
+## 1. Общее назначение шаблона
+
+Шаблон **Adapter** относится к структурным шаблонам проектирования GoF.
+
+Он позволяет:
+- преобразовать интерфейс одного класса в интерфейс, ожидаемый клиентом;
+- использовать существующие классы, несовместимые с текущим кодом, без их изменения;
+- изолировать клиентский код от конкретных реализаций внешних библиотек или сервисов.
+
+## 2. Назначение в системе управления конференциями
+
+В системе конференций есть внешние сервисы уведомлений, которые имеют несовместимый интерфейс, например:
+наше приложение использует INotificationService с методами NotifyAll() и NotifyParticipant(). Внешний сервис SMS умеет только SendSms(number, message).
+
+Использование шаблона Adapter позволяет:
+- подключать внешние сервисы без изменения клиентского кода;
+- стандартизировать работу с уведомлениями;
+- легко добавлять новые каналы уведомлений (SMS, Slack, Telegram и др.).
+
+
+## 3. Диаграмма
+```mermaid
+classDiagram
+    %% Клиентский код работает с интерфейсом
+    class INotificationService {
+        <<interface>>
+        +NotifyAll()
+        +NotifyParticipant(participantId: string)
+    }
+
+    class ConferenceNotificationAdapter {
+        - externalSmsService: ExternalSmsService
+        +NotifyAll()
+        +NotifyParticipant(participantId: string)
+    }
+
+    class ExternalSmsService {
+        +SendSms(number: string, message: string)
+    }
+
+    %% Ассоциации
+    ConferenceNotificationAdapter ..> ExternalSmsService : uses
+    ConferenceNotificationAdapter ..|> INotificationService
+```
+
+## 4. Реализация на C#
+
+### 4.1 Интерфейс уведомлений (клиентский)
+
+```csharp
+public interface INotificationService
+{
+    void NotifyAll();
+    void NotifyParticipant(string participantId);
+}
+```
+
+## 4.2 Внешний сервис (не совместим с клиентским интерфейсом)
+
+```csharp
+public class ExternalSmsService
+{
+    public void SendSms(string number, string message)
+    {
+        Console.WriteLine($"SMS sent to {number}: {message}");
+    }
+}
+```
+
+## 4.3 Адаптер
+
+```csharp
+public class ConferenceNotificationAdapter : INotificationService
+{
+    private readonly ExternalSmsService _externalSmsService;
+    private readonly List<string> _participants;
+
+    public ConferenceNotificationAdapter(ExternalSmsService externalSmsService, List<string> participants)
+    {
+        _externalSmsService = externalSmsService;
+        _participants = participants;
+    }
+
+    public void NotifyAll()
+    {
+        foreach (var participant in _participants)
+        {
+            _externalSmsService.SendSms(participant, "Conference starting soon!");
+        }
+    }
+
+    public void NotifyParticipant(string participantId)
+    {
+        if (_participants.Contains(participantId))
+        {
+            _externalSmsService.SendSms(participantId, "Personal reminder for the conference.");
+        }
+    }
+}
+```
+
+## 4.4 Клиентский код
+
+```csharp
+    var participants = new List<string> { "111-222-333", "444-555-666" };
+    INotificationService notificationService = new ConferenceNotificationAdapter(externalSmsService, participants); 
+    
+    notificationService.NotifyAll();
+    notificationService.NotifyParticipant("111-222-333");
+    
+    Console.ReadKey();
+
+```
+
+## 5. Вывод
+Использование шаблона Adapter позволяет:
+- интегрировать внешние сервисы с несовместимым интерфейсом;
+- стандартизировать работу клиентского кода с уведомлениями;
+- не менять существующий клиентский код при добавлении новых каналов уведомлений.
