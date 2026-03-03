@@ -794,7 +794,7 @@ classDiagram
 
 ## 4. Реализация на C#
 
-### 4.1 Интерфейс уведомлений (клиентский)
+### 4.1 Интерфейсы
 
 ```csharp
 public interface INotificationService
@@ -802,12 +802,17 @@ public interface INotificationService
     void NotifyAll();
     void NotifyParticipant(string participantId);
 }
+
+public interface IExternalSmsService
+{
+    void SendSms(string number, string message);
+}
 ```
 
 ## 4.2 Внешний сервис (не совместим с клиентским интерфейсом)
 
 ```csharp
-public class ExternalSmsService
+public class ExternalSmsService : IExternalSmsService
 {
     public void SendSms(string number, string message)
     {
@@ -866,3 +871,459 @@ public class ConferenceNotificationAdapter : INotificationService
 - интегрировать внешние сервисы с несовместимым интерфейсом;
 - стандартизировать работу клиентского кода с уведомлениями;
 - не менять существующий клиентский код при добавлении новых каналов уведомлений.
+
+
+### Facade (Фасад)
+
+## 1. Общее назначение шаблона
+
+Шаблон **Facade** относится к структурным шаблонам проектирования GoF.
+
+Он позволяет:
+- предоставить простой интерфейс к сложной подсистеме;
+- скрыть детали взаимодействия множества классов;
+- уменьшить связанность клиентского кода с конкретными реализациями;
+- объединить несколько операций в один метод.
+
+## 2. Назначение в системе управления конференциями
+
+В системе конференций выполнение всех операций одного мероприятия включает:
+- показ расписания;
+- уведомление участников;
+- генерацию отчетов.
+
+Фасад позволяет:
+- запускать подготовку конференции одной командой (RunConference);
+- изолировать клиентский код от подсистем (расписание, уведомления, отчёты);
+- добавлять новые функции подсистем без изменения клиента.
+
+
+## 3. Диаграмма
+```mermaid
+classDiagram
+    class ConferenceFacade {
+        +RunConference()
+        +NotifyParticipant(participantId: string, talkTitle: string)
+    }
+
+    class ScheduleService {
+        +ShowSchedule()
+        +AddTalk(talk: Talk)
+        +GetTalks() List~Talk~
+    }
+
+    class NotificationService {
+        +NotifyAll(talks: List~Talk~)
+        +NotifyParticipant(participantId: string, talkTitle: string)
+    }
+
+    class ReportService {
+        +GenerateSummaryReport()
+        +GenerateSpeakerReport(speakerId: int)
+    }
+
+    %% Ассоциации
+    ConferenceFacade ..> ScheduleService : uses
+    ConferenceFacade ..> NotificationService : uses
+    ConferenceFacade ..> ReportService : uses
+```
+
+## 4. Реализация на C#
+
+### 4.1 Сервисы подсистемы
+
+```csharp
+public class ScheduleService : IScheduleService
+{
+    private readonly List<Talk> _talks = new();
+
+    public void ShowSchedule()
+    {
+        Console.WriteLine("Conference schedule:");
+        foreach (var talk in _talks)
+        {
+            Console.WriteLine($"- {talk.Title} (Speaker {talk.SpeakerId})");
+        }
+    }
+
+    public void AddTalk(Talk talk)
+    {
+        _talks.Add(talk);
+        Console.WriteLine($"Talk '{talk.Title}' added to schedule.");
+    }
+
+    public List<Talk> GetTalks() => _talks;
+}
+
+public class NotificationService : INotificationService
+{
+    public void NotifyAll(List<Talk> talks)
+    {
+        foreach (var talk in talks)
+        {
+            Console.WriteLine($"Notifying all participants about talk '{talk.Title}'.");
+        }
+    }
+
+    public void NotifyParticipant(string participantId, string talkTitle)
+    {
+        Console.WriteLine($"Notifying participant {participantId} about '{talkTitle}'.");
+    }
+}
+
+public class ReportService
+{
+    public void GenerateSummaryReport()
+    {
+        Console.WriteLine("Generating summary report for all talks...");
+    }
+
+    public void GenerateSpeakerReport(int speakerId)
+    {
+        Console.WriteLine($"Generating report for speaker {speakerId}...");
+    }
+}
+```
+
+## 4.2 Фасад
+
+```csharp
+public class ConferenceFacade
+{
+    private readonly ScheduleService _schedule;
+    private readonly NotificationService _notification;
+    private readonly ReportService _report;
+
+    public ConferenceFacade(ScheduleService schedule,
+                            NotificationService notification,
+                            ReportService report)
+    {
+        _schedule = schedule;
+        _notification = notification;
+        _report = report;
+    }
+
+    public void RunConference()
+    {
+        _schedule.ShowSchedule();
+        _notification.NotifyAll(_schedule.GetTalks());
+        _report.GenerateSummaryReport();
+    }
+
+    public void NotifyParticipant(string participantId, string talkTitle)
+    {
+        _notification.NotifyParticipant(participantId, talkTitle);
+    }
+}
+```
+
+## 4.3 Клиентский код
+
+```csharp
+var schedule = new ScheduleService();
+schedule.AddTalk(new Talk("Cloud Architecture", 1));
+schedule.AddTalk(new Talk("Microservices", 2));
+
+var notification = new NotificationService();
+var report = new ReportService();
+
+var facade = new ConferenceFacade(schedule, notification, report);
+
+// Запуск всей конференции
+facade.RunConference();
+
+// Отдельное уведомление участника
+facade.NotifyParticipant("111-222-333", "Cloud Architecture");
+
+Console.ReadKey();
+```
+
+### Decorator (Декоратор)
+
+## 1. Общее назначение шаблона
+
+Шаблон **Decorator** относится к структурным шаблонам проектирования GoF.
+
+Он позволяет:
+- динамически добавлять функциональность объектам;
+- расширять поведение без изменения исходного класса;
+- комбинировать несколько декораторов для одного объекта;
+- служит гибкой альтернативой наследованию для расширения возможностей.
+
+## 2. Назначение в системе управления конференциями
+
+В системе есть объекты, которые отправляют уведомления (INotificationService). Иногда требуется:
+- логировать все отправленные уведомления;
+- добавлять метку времени к сообщениям;
+- или выполнять дополнительные проверки перед отправкой.
+
+Использование шаблона Decorator позволяет:
+- добавлять эти функции не изменяя исходный код уведомлений;
+- комбинировать несколько улучшений;
+- применять декораторы только там, где нужно.
+
+## 3. Диаграмма
+```mermaid
+classDiagram
+    class INotificationService {
+        <<interface>>
+        +NotifyAll()
+        +NotifyParticipant(participantId: string)
+    }
+
+    class LoggingDecorator {
+        - wrappee: INotificationService
+        +NotifyAll()
+        +NotifyParticipant(participantId: string)
+    }
+
+    class TimestampDecorator {
+        - wrappee: INotificationService
+        +NotifyAll()
+        +NotifyParticipant(participantId: string)
+    }
+
+    %% Ассоциации
+    LoggingDecorator ..> INotificationService : wraps
+    TimestampDecorator ..> INotificationService : wraps
+```
+
+## 4. Реализация на C#
+
+### 4.1 Интерфейс уведомлений
+
+```csharp
+public interface INotificationService
+{
+    void NotifyAll();
+    void NotifyParticipant(string participantId);
+}
+```
+
+## 4.2 Базовый сервис уведомлений
+
+```csharp
+public class NotificationService : INotificationService
+{
+    public void NotifyAll()
+    {
+        Console.WriteLine("Notifying all participants...");
+    }
+
+    public void NotifyParticipant(string participantId)
+    {
+        Console.WriteLine($"Notifying participant {participantId}...");
+    }
+}
+```
+
+## 4.3 Декоратор для логирования
+
+```csharp
+public class LoggingDecorator : INotificationService
+{
+    private readonly INotificationService _wrappee;
+
+    public LoggingDecorator(INotificationService wrappee)
+    {
+        _wrappee = wrappee;
+    }
+
+    public void NotifyAll()
+    {
+        Console.WriteLine("[LOG] NotifyAll called");
+        _wrappee.NotifyAll();
+    }
+
+    public void NotifyParticipant(string participantId)
+    {
+        Console.WriteLine($"[LOG] NotifyParticipant called for {participantId}");
+        _wrappee.NotifyParticipant(participantId);
+    }
+}
+```
+## 4.4 Декоратор для добавления метки времени
+
+```csharp
+public class TimestampDecorator : INotificationService
+{
+    private readonly INotificationService _wrappee;
+
+    public TimestampDecorator(INotificationService wrappee)
+    {
+        _wrappee = wrappee;
+    }
+
+    public void NotifyAll()
+    {
+        Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] NotifyAll executed");
+        _wrappee.NotifyAll();
+    }
+
+    public void NotifyParticipant(string participantId)
+    {
+        Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] NotifyParticipant executed for {participantId}");
+        _wrappee.NotifyParticipant(participantId);
+    }
+}
+```
+
+## 4.5 Клиентский код
+
+```csharp
+var baseService = new NotificationService();
+
+// Оборачиваем декораторами
+INotificationService decoratedService =
+    new LoggingDecorator(new TimestampDecorator(baseService));
+
+// Вызов методов через декораторы
+decoratedService.NotifyAll();
+decoratedService.NotifyParticipant("111-222-333");
+
+Console.ReadKey();
+```
+
+Порядок выполнения будет:
+- LoggingDecorator → пишет лог
+- TimestampDecorator → пишет время
+- NotificationService → отправляет уведомление
+
+Зачем так делают?
+
+Потому что это:
+- гибче, чем наследование
+- можно добавлять/убирать поведение динамически
+- не разрастается иерархия классов
+- соблюдается принцип Open/Closed
+
+### Proxy (Заместитель)
+
+## 1. Общее назначение шаблона
+
+Шаблон **Proxy** относится к структурным шаблонам проектирования GoF.
+
+Он позволяет:
+- контролировать доступ к реальному объекту;
+- выполнять ленивую инициализацию (создавать объект только при необходимости);
+- добавлять дополнительную логику (логирование, проверку прав, кэширование);
+- не изменять код реального объекта.
+
+Proxy реализует тот же интерфейс, что и реальный объект, поэтому клиент не знает, работает он с оригиналом или с заместителем.
+
+## 2. Назначение в системе управления конференциями
+
+В системе конференций генерация детального отчёта по конференции:
+- может быть ресурсоёмкой операцией;
+- может быть доступна только администраторам;
+- требует загрузки большого объёма данных.
+
+Чтобы:
+- ограничить доступ к отчётам,
+- не создавать тяжёлый объект без необходимости,
+
+мы создаём `ReportProxy`, который:
+- проверяет роль пользователя,
+- лениво создаёт реальный объект отчёта,
+- делегирует вызов настоящему сервису.
+
+
+## 3. Диаграмма
+```mermaid
+classDiagram
+    class IReportService {
+        <<interface>>
+        +GenerateFullReport(conferenceId: int)
+    }
+
+    class RealReportService {
+        -conferenceData: string
+        +GenerateFullReport(conferenceId: int)
+    }
+
+    class ReportProxy {
+        -realReport: RealReportService
+        -userRole: string
+        +GenerateFullReport(conferenceId: int)
+    }
+
+    IReportService <|-- RealReportService
+    IReportService <|-- ReportProxy
+    ReportProxy --> RealReportService : controls access
+```
+
+## 4. Реализация на C#
+
+### 4.1 Интерфейс отчёта
+
+```csharp
+public interface IReportService
+{
+    void GenerateFullReport(int conferenceId);
+}
+```
+
+## 4.2 Реальный объект (тяжёлый сервис)
+
+```csharp
+public class RealReportService : IReportService
+{
+    private string _conferenceData;
+
+    public RealReportService(int conferenceId)
+    {
+        // Имитация тяжёлой загрузки данных
+        Console.WriteLine("Loading conference data from database...");
+        _conferenceData = $"Full data for conference {conferenceId}";
+    }
+
+    public void GenerateFullReport(int conferenceId)
+    {
+        Console.WriteLine($"Generating full report for conference {conferenceId}");
+        Console.WriteLine(_conferenceData);
+    }
+}
+```
+
+## 4.3 Proxy (заместитель)
+
+```csharp
+public class ReportProxy : IReportService
+{
+    private RealReportService _realReport;
+    private readonly string _userRole;
+    private readonly int _conferenceId;
+
+    public ReportProxy(int conferenceId, string userRole)
+    {
+        _conferenceId = conferenceId;
+        _userRole = userRole;
+    }
+
+    public void GenerateFullReport(int conferenceId)
+    {
+        // 1. Контроль доступа
+        if (_userRole != "Admin")
+        {
+            Console.WriteLine("Access denied. Admin role required.");
+            return;
+        }
+
+        // 2. Ленивая инициализация
+        if (_realReport == null)
+        {
+            _realReport = new RealReportService(_conferenceId);
+        }
+
+        // 3. Делегирование вызова реальному объекту
+        _realReport.GenerateFullReport(conferenceId);
+    }
+}
+```
+
+## 4.4 Клиентский код
+
+```csharp
+    IReportService reportService = new ReportProxy(2026, "Admin");
+    reportService.GenerateFullReport(2026);
+```
