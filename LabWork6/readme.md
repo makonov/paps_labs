@@ -259,10 +259,6 @@ public class ConferenceApplication
 }
 ```
 
-## 5. Вывод
-Шаблон Abstract Factory позволяет создавать согласованные семейства объектов,
-изолируя клиентский код от конкретных реализаций и обеспечивая гибкость системы
-
 ## Factory Method (Фабричный метод)
 
 ## 1. Общее назначение шаблона
@@ -493,13 +489,6 @@ public class ConferenceScheduler
     }
 }
 ```
-
-## 5. Вывод
-Шаблон Factory Method позволил:
-- инкапсулировать различия в логике построения расписания;
-- делегировать создание конкретного продукта подклассам;
-- изолировать клиентский код от конкретных реализаций;
-- обеспечить расширяемость системы при добавлении новых форматов конференций.
 
 ## Prototype (Прототип)
 
@@ -737,13 +726,6 @@ class Program
 }
 ```
 
-## 5. Вывод
-В системе управления конференциями данный шаблон:
-- позволяет копировать сложные структуры расписаний;
-- демонстрирует необходимость глубокого копирования вложенных объектов;
-- упрощает создание новых конференций на основе существующих;
-- снижает связанность клиентского кода с конкретными реализациями.
-
 ## Структурные шаблоны  
 ### Adapter (Адаптер)
 
@@ -865,13 +847,6 @@ public class ConferenceNotificationAdapter : INotificationService
     Console.ReadKey();
 
 ```
-
-## 5. Вывод
-Использование шаблона Adapter позволяет:
-- интегрировать внешние сервисы с несовместимым интерфейсом;
-- стандартизировать работу клиентского кода с уведомлениями;
-- не менять существующий клиентский код при добавлении новых каналов уведомлений.
-
 
 ### Facade (Фасад)
 
@@ -1327,3 +1302,970 @@ public class ReportProxy : IReportService
     IReportService reportService = new ReportProxy(2026, "Admin");
     reportService.GenerateFullReport(2026);
 ```
+
+## Порождающие шаблоны  
+### Strategy (Стратегия)
+
+## 1. Общее назначение шаблона
+
+Шаблон **Strategy** относится к поведенческим шаблонам GoF.  
+
+Он позволяет определить семейство алгоритмов, вынести каждый алгоритм в отдельный класс и сделать их взаимозаменяемыми.
+
+Объект не содержит внутри if / switch с разной логикой — вместо этого нужный алгоритм передаётся ему извне. Благодаря этому поведение можно менять во время выполнения программы, не изменяя сам класс.
+
+## 2. Применение в системе управления конференциями
+
+В системе конференций регистрация участников может выполняться по разным правилам:
+- стандартная регистрация с ограничением мест;
+- VIP-регистрация без ограничения;
+- регистрация с добавлением в лист ожидания;
+- регистрация по списку приглашённых.
+
+Использование Strategy позволяет:
+- менять политику регистрации без изменения основного сервиса;
+- добавлять новые правила без переписывания кода;
+- изолировать бизнес-логику регистрации.
+
+## 3. Диаграмма
+```mermaid
+classDiagram
+    class IRegistrationStrategy {
+        <<interface>>
+        +Register(conference, participant)
+    }
+
+    class StandardRegistrationStrategy {
+        +Register(conference, participant)
+    }
+    class VipRegistrationStrategy {
+        +Register(conference, participant)
+    }
+    class WaitlistRegistrationStrategy {
+        +Register(conference, participant)
+    }
+    class InvitationOnlyRegistrationStrategy {
+        +Register(conference, participant)
+    }
+
+    class RegistrationService {
+        - strategy: IRegistrationStrategy
+        +RegisterParticipant(participant)
+        +SetStrategy(strategy)
+    }
+
+    IRegistrationStrategy <|-- StandardRegistrationStrategy
+    IRegistrationStrategy <|-- VipRegistrationStrategy
+    IRegistrationStrategy <|-- WaitlistRegistrationStrategy
+    IRegistrationStrategy <|-- InvitationOnlyRegistrationStrategy
+
+    RegistrationService --> IRegistrationStrategy
+```
+
+## 4. Реализация на C#
+
+### 4.1 Интерфейс стратегии
+
+```csharp
+public interface IRegistrationStrategy
+{
+    void Register(Conference conference, Participant participant);
+}
+```
+
+### 4.2 Стандартная регистрация
+
+```csharp
+public class StandardRegistrationStrategy : IRegistrationStrategy
+{
+    public void Register(Conference conference, Participant participant)
+    {
+        if (conference.Registered.Count >= conference.Capacity)
+            throw new InvalidOperationException("Conference is full.");
+
+        conference.Registered.Add(participant);
+    }
+}
+```
+
+### 4.3 VIP-регистрация
+
+```csharp
+public class VipRegistrationStrategy : IRegistrationStrategy
+{
+    public void Register(Conference conference, Participant participant)
+    {
+        if (!participant.IsVip)
+            throw new UnauthorizedAccessException("Only VIP participants allowed.");
+
+        conference.Registered.Add(participant);
+    }
+}
+```
+
+### 4.4 Регистрация с листом ожидания
+
+```csharp
+public class HybridConferenceFactory : IConferenceFactory
+{
+    private Conference _conference;
+    public HybridConferenceFactory(Conference conference) => _conference = conference;
+
+    public ISchedule CreateSchedule() => new HybridSchedule(_conference);
+    public INotificationService CreateNotificationService() => new MultiChannelNotificationService(_conference);
+    public IReportGenerator CreateReportGenerator() => new HybridReportGenerator();
+}
+```
+
+### 4.5 Регистрация по приглашению
+
+```csharp
+public class InvitationOnlyRegistrationStrategy : IRegistrationStrategy
+{
+    public void Register(Conference conference, Participant participant)
+    {
+        if (!participant.HasInvitation)
+            throw new UnauthorizedAccessException("Invitation required.");
+
+        conference.Registered.Add(participant);
+    }
+}
+```
+
+### 4.6 Контекст
+
+```csharp
+public class RegistrationService
+{
+    private IRegistrationStrategy _strategy;
+    private readonly Conference _conference;
+
+    public RegistrationService(Conference conference, IRegistrationStrategy strategy)
+    {
+        _conference = conference;
+        _strategy = strategy;
+    }
+
+    public void SetStrategy(IRegistrationStrategy strategy)
+    {
+        _strategy = strategy;
+    }
+
+    public void RegisterParticipant(Participant participant)
+    {
+        _strategy.Register(_conference, participant);
+    }
+}
+```
+
+---
+
+### 4.7 Клиентский код
+
+```csharp
+var conference = new Conference { Capacity = 2 };
+
+var service = new RegistrationService(conference, new StandardRegistrationStrategy());
+
+var p1 = new Participant { Id = "1" };
+var p2 = new Participant { Id = "2" };
+var p3 = new Participant { Id = "3" };
+
+service.RegisterParticipant(p1);
+service.RegisterParticipant(p2);
+
+// Меняем стратегию на waitlist
+service.SetStrategy(new WaitlistRegistrationStrategy());
+service.RegisterParticipant(p3);
+```
+
+### Observer (Наблюдатель)
+
+## 1. Общее назначение шаблона
+
+Шаблон **Observer** относится к поведенческим шаблонам GoF.  
+
+Он реализует механизм подписки, при котором один объект (субъект) автоматически уведомляет другие объекты (наблюдателей) об изменении своего состояния.
+
+Таким образом достигается слабая связанность: субъект не знает, что именно делают подписчики, он лишь сообщает о факте изменения. Это позволяет динамически добавлять или удалять обработчики событий без изменения кода основного объекта.
+
+
+## 2. Применение в системе управления конференциями
+
+В системе управления конференциями при изменении расписания (например, при добавлении нового доклада) требуется автоматически выполнить несколько действий: уведомить участников, обновить кэш и записать событие в аудит-лог.
+
+Использование шаблона Observer позволяет реализовать это без жёсткой связи между ScheduleManager и конкретными сервисами. Менеджер расписания просто сообщает об изменении, а подписчики самостоятельно выполняют нужные действия.
+
+Это делает систему расширяемой: можно добавить новый тип реакции (например, отправку push-уведомлений), не изменяя код управления расписанием.
+
+## 3. Диаграмма
+```mermaid
+classDiagram
+    class IObserver {
+        <<interface>>
+        +Update(subject: IScheduleSubject)
+    }
+
+    class IScheduleSubject {
+        <<interface>>
+        +Attach(observer: IObserver)
+        +Detach(observer: IObserver)
+        +Notify()
+    }
+
+    class ScheduleManager {
+        - observers: List~IObserver~
+        - talks: List~Talk~
+        +Attach(observer)
+        +Detach(observer)
+        +Notify()
+        +AddTalk(talk: Talk)
+    }
+
+    class EmailNotificationObserver {
+        +Update(subject)
+    }
+
+    class AuditLogObserver {
+        +Update(subject)
+    }
+
+    class CacheUpdateObserver {
+        +Update(subject)
+    }
+
+    IScheduleSubject <|-- ScheduleManager
+    IObserver <|-- EmailNotificationObserver
+    IObserver <|-- AuditLogObserver
+    IObserver <|-- CacheUpdateObserver
+
+    ScheduleManager o-- IObserver : observers
+```
+
+## 4. Реализация на C#
+
+### 4.1 Интерфейсы
+
+```csharp
+public interface IObserver
+{
+    void Update(IScheduleSubject subject);
+}
+
+public interface IScheduleSubject
+{
+    void Attach(IObserver observer);
+    void Detach(IObserver observer);
+    void Notify();
+}
+```
+
+### 4.2 Субъект (ScheduleManager)
+
+```csharp
+public class ScheduleManager : IScheduleSubject
+{
+    private readonly List<IObserver> _observers = new();
+    private readonly List<Talk> _talks = new();
+
+    public IReadOnlyList<Talk> Talks => _talks;
+
+    public void Attach(IObserver observer)
+    {
+        _observers.Add(observer);
+    }
+
+    public void Detach(IObserver observer)
+    {
+        _observers.Remove(observer);
+    }
+
+    public void Notify()
+    {
+        foreach (var observer in _observers)
+        {
+            observer.Update(this);
+        }
+    }
+
+    public void AddTalk(Talk talk)
+    {
+        _talks.Add(talk);
+        Console.WriteLine($"Talk '{talk.Title}' added.");
+
+        // После изменения состояния уведомляем подписчиков
+        Notify();
+    }
+}
+```
+
+### 4.3 Наблюдатели
+
+```csharp
+public class EmailNotificationObserver : IObserver
+{
+    public void Update(IScheduleSubject subject)
+    {
+        var schedule = subject as ScheduleManager;
+
+        var lastTalk = schedule?.Talks.LastOrDefault();
+        if (lastTalk != null)
+        {
+            Console.WriteLine($"EMAIL: Participants notified about new talk '{lastTalk.Title}'.");
+        }
+    }
+}
+
+public class AuditLogObserver : IObserver
+{
+    public void Update(IScheduleSubject subject)
+    {
+        var schedule = subject as ScheduleManager;
+
+        var lastTalk = schedule?.Talks.LastOrDefault();
+        if (lastTalk != null)
+        {
+            Console.WriteLine($"AUDIT: Talk '{lastTalk.Title}' was added to schedule.");
+        }
+    }
+}
+
+public class CacheUpdateObserver : IObserver
+{
+    public void Update(IScheduleSubject subject)
+    {
+        Console.WriteLine("CACHE: Schedule cache refreshed.");
+    }
+}
+```
+
+### 4.4 Клиентский код
+
+```csharp
+var scheduleManager = new ScheduleManager();
+
+// Подписчики
+scheduleManager.Attach(new EmailNotificationObserver());
+scheduleManager.Attach(new AuditLogObserver());
+scheduleManager.Attach(new CacheUpdateObserver());
+
+// Изменение состояния
+scheduleManager.AddTalk(new Talk("Cloud Architecture", "Ivan Petrov"));
+scheduleManager.AddTalk(new Talk("Microservices", "Anna Smirnova"));
+```
+
+### State (Состояние)
+
+## 1. Общее назначение шаблона
+
+Шаблон **State** относится к поведенческим шаблонам GoF.  
+
+Он позволяет объекту изменять своё поведение при изменении внутреннего состояния.
+При этом создаётся ощущение, будто объект меняет свой класс.
+
+Основная идея:
+- состояние выносится в отдельные классы;
+- каждый класс состояния определяет своё поведение;
+- объект-контекст делегирует выполнение логики текущему состоянию;
+- переходы между состояниями инкапсулируются внутри самих состояний.
+
+Это позволяет избежать большого количества if / switch по статусу объекта.
+
+
+## 2. Применение в системе управления конференциями
+
+В системе управления конференциями доклад (Talk) проходит несколько этапов жизненного цикла:
+- Draft — черновик;
+- OnReview — на модерации;
+- Approved — одобрен;
+- Rejected — отклонён.
+
+Поведение зависит от текущего состояния:
+- в Draft можно отправить доклад на модерацию;
+- в OnReview можно одобрить или отклонить;
+- в Approved нельзя повторно отправить на проверку;
+- в Rejected можно повторно отправить на модерацию.
+
+Использование шаблона State позволяет:
+- убрать проверки вида if (status == ...);
+- изолировать поведение каждого состояния;
+- легко добавить новое состояние без переписывания класса Talk.
+
+## 3. Диаграмма
+```mermaid
+classDiagram
+    class ITalkState {
+        <<interface>>
+        +Submit()
+        +Approve()
+        +Reject()
+    }
+
+    class DraftState {
+        +Submit()
+        +Approve()
+        +Reject()
+    }
+
+    class OnReviewState {
+        +Submit()
+        +Approve()
+        +Reject()
+    }
+
+    class ApprovedState {
+        +Submit()
+        +Approve()
+        +Reject()
+    }
+
+    class RejectedState {
+        +Submit()
+        +Approve()
+        +Reject()
+    }
+
+    class Talk {
+        - state: ITalkState
+        +ChangeState(state: ITalkState)
+        +Submit()
+        +Approve()
+        +Reject()
+    }
+
+    ITalkState <|-- DraftState
+    ITalkState <|-- OnReviewState
+    ITalkState <|-- ApprovedState
+    ITalkState <|-- RejectedState
+    Talk o-- ITalkState
+```
+
+## 4. Реализация на C#
+
+### 4.1 Интерфейс состояния
+
+```csharp
+public interface ITalkState
+{
+    void Submit();
+    void Approve();
+    void Reject();
+}
+```
+
+### 4.2 Контекст (Talk)
+
+```csharp
+public class Talk
+{
+    private ITalkState _state;
+
+    public string Title { get; }
+
+    public Talk(string title)
+    {
+        Title = title;
+        ChangeState(new DraftState(this));
+    }
+
+    public void ChangeState(ITalkState state)
+    {
+        _state = state;
+    }
+
+    public void Submit()
+    {
+        _state.Submit();
+    }
+
+    public void Approve()
+    {
+        _state.Approve();
+    }
+
+    public void Reject()
+    {
+        _state.Reject();
+    }
+}
+```
+
+### 4.3 Конкретные состояния
+
+```csharp
+public class DraftState : ITalkState
+{
+    private readonly Talk _talk;
+
+    public DraftState(Talk talk)
+    {
+        _talk = talk;
+    }
+
+    public void Submit()
+    {
+        Console.WriteLine("Talk submitted for review.");
+        _talk.ChangeState(new OnReviewState(_talk));
+    }
+
+    public void Approve()
+    {
+        Console.WriteLine("Cannot approve draft.");
+    }
+
+    public void Reject()
+    {
+        Console.WriteLine("Cannot reject draft.");
+    }
+}
+
+public class OnReviewState : ITalkState
+{
+    private readonly Talk _talk;
+
+    public OnReviewState(Talk talk)
+    {
+        _talk = talk;
+    }
+
+    public void Submit()
+    {
+        Console.WriteLine("Already under review.");
+    }
+
+    public void Approve()
+    {
+        Console.WriteLine("Talk approved.");
+        _talk.ChangeState(new ApprovedState(_talk));
+    }
+
+    public void Reject()
+    {
+        Console.WriteLine("Talk rejected.");
+        _talk.ChangeState(new RejectedState(_talk));
+    }
+}
+
+public class ApprovedState : ITalkState
+{
+    private readonly Talk _talk;
+
+    public ApprovedState(Talk talk)
+    {
+        _talk = talk;
+    }
+
+    public void Submit()
+    {
+        Console.WriteLine("Talk already approved.");
+    }
+
+    public void Approve()
+    {
+        Console.WriteLine("Talk already approved.");
+    }
+
+    public void Reject()
+    {
+        Console.WriteLine("Cannot reject approved talk.");
+    }
+}
+
+public class RejectedState : ITalkState
+{
+    private readonly Talk _talk;
+
+    public RejectedState(Talk talk)
+    {
+        _talk = talk;
+    }
+
+    public void Submit()
+    {
+        Console.WriteLine("Resubmitting talk for review.");
+        _talk.ChangeState(new OnReviewState(_talk));
+    }
+
+    public void Approve()
+    {
+        Console.WriteLine("Cannot directly approve rejected talk.");
+    }
+
+    public void Reject()
+    {
+        Console.WriteLine("Talk already rejected.");
+    }
+}
+```
+
+### 4.4 Клиентский код
+
+```csharp
+var talk = new Talk("Cloud Architecture");
+
+talk.Submit();   // Draft → OnReview
+talk.Approve();  // OnReview → Approved
+talk.Reject();   // Нельзя отклонить после одобрения
+```
+
+### Command (Команда)
+
+## 1. Общее назначение шаблона
+
+Шаблон **Command** относится к поведенческим шаблонам GoF.  
+
+Он превращает запрос или операцию в самостоятельный объект, содержащий всю необходимую информацию для её выполнения.
+
+Это позволяет:
+- параметризовать объекты клиентского кода разными запросами;
+- ставить запросы в очередь и откладывать выполнение;
+- реализовать отмену операций и повторное выполнение;
+- вести историю действий и логирование без изменения бизнес-логики.
+
+Главная идея: объект-команда знает как выполнить действие, клиент и получатель команды не знают деталей.
+
+
+## 2. Применение в системе управления конференциями
+
+В системе конференций есть операции:
+- добавление доклада (AddTalk);
+- одобрение доклада (ApproveTalk);
+- уведомление участников (NotifyParticipants).
+
+Использование шаблона Command позволяет:
+- хранить историю операций для проверки;
+- ставить задачи на выполнение в очередь;
+- реализовать возможность отмены действия (например, удаление доклада);
+- изолировать бизнес-логику от способа вызова команды.
+
+## 3. Диаграмма
+```mermaid
+classDiagram
+    class ICommand {
+        <<interface>>
+        +Execute()
+    }
+
+    class AddTalkCommand {
+        - talk: Talk
+        +Execute()
+    }
+
+    class ApproveTalkCommand {
+        - talk: Talk
+        +Execute()
+    }
+
+    class NotifyParticipantsCommand {
+        - schedule: ScheduleManager
+        +Execute()
+    }
+
+    class CommandInvoker {
+        - history: List~ICommand~
+        +SetCommand(command: ICommand)
+        +ExecuteCommand()
+        +GetHistory() List~string~
+    }
+
+    ICommand <|-- AddTalkCommand
+    ICommand <|-- ApproveTalkCommand
+    ICommand <|-- NotifyParticipantsCommand
+    CommandInvoker o-- ICommand
+```
+
+## 4. Реализация на C#
+
+### 4.1 Интерфейс команды
+
+```csharp
+public interface ICommand
+{
+    void Execute();
+}
+```
+
+### 4.2 Конкретные команды
+
+```csharp
+public class AddTalkCommand : ICommand
+{
+    private readonly ScheduleManager _schedule;
+    private readonly Talk _talk;
+
+    public AddTalkCommand(ScheduleManager schedule, Talk talk)
+    {
+        _schedule = schedule;
+        _talk = talk;
+    }
+
+    public void Execute()
+    {
+        _schedule.AddTalk(_talk);
+        Console.WriteLine($"Command executed: Added talk '{_talk.Title}'.");
+    }
+}
+
+public class ApproveTalkCommand : ICommand
+{
+    private readonly Talk _talk;
+
+    public ApproveTalkCommand(Talk talk)
+    {
+        _talk = talk;
+    }
+
+    public void Execute()
+    {
+        _talk.Approve();
+        Console.WriteLine($"Command executed: Approved talk '{_talk.Title}'.");
+    }
+}
+
+public class NotifyParticipantsCommand : ICommand
+{
+    private readonly ScheduleManager _schedule;
+
+    public NotifyParticipantsCommand(ScheduleManager schedule)
+    {
+        _schedule = schedule;
+    }
+
+    public void Execute()
+    {
+        foreach (var talk in _schedule.Talks)
+        {
+            Console.WriteLine($"Notifying participants about '{talk.Title}'...");
+        }
+        Console.WriteLine("Command executed: All participants notified.");
+    }
+}
+```
+
+### 4.3 Invoker с историей команд
+
+```csharp
+public class CommandInvoker
+{
+    private readonly List<ICommand> _history = new();
+
+    public void ExecuteCommand(ICommand command)
+    {
+        _history.Add(command);
+        Console.WriteLine($"Command '{command.GetType().Name}' added to history.");
+        command.Execute();
+    }
+
+    public List<string> GetHistory()
+    {
+        return _history.Select(c => c.GetType().Name).ToList();
+    }
+}
+```
+
+### 4.4 Клиентский код
+
+```csharp
+var schedule = new ScheduleManager();
+var invoker = new CommandInvoker();
+
+var talk1 = new Talk("Cloud Architecture");
+var talk2 = new Talk("Microservices");
+
+invoker.ExecuteCommand(new AddTalkCommand(schedule, talk1));
+invoker.ExecuteCommand(new AddTalkCommand(schedule, talk2));
+
+invoker.ExecuteCommand(new ApproveTalkCommand(talk1));
+invoker.ExecuteCommand(new NotifyParticipantsCommand(schedule));
+
+Console.WriteLine("History:");
+foreach (var cmd in invoker.GetHistory())
+{
+    Console.WriteLine($"- {cmd}");
+}
+```
+
+### Template Method (Шаблонный метод)
+
+## 1. Общее назначение шаблона
+
+Шаблон **Template Method** относится к поведенческим шаблонам GoF.  
+
+Он определяет скелет алгоритма в методе базового класса, а реализацию отдельных шагов перекладывает на подклассы.
+
+Это позволяет:
+- задавать неизменную структуру алгоритма;
+- переопределять только отдельные шаги в подклассах;
+- избегать дублирования кода и условных операторов;
+- изолировать общую логику от деталей реализации.
+
+Главная идея: шаблонный метод контролирует порядок действий, а подкласс отвечает только за конкретную реализацию шагов.
+
+
+## 2. Применение в системе управления конференциями
+
+В системе конференций операции подготовки могут включать несколько этапов:
+- проверка доступности ресурсов (комнаты, серверы, оборудование);
+- подготовка расписания докладов;
+- уведомление участников;
+- генерация отчёта.
+
+Использование шаблона Template Method позволяет:
+- определить общую последовательность действий для подготовки любого события;
+- изменять только отдельные шаги для конкретного типа мероприятия (например, онлайн-конференция или офлайн-конференция);
+- гарантировать, что базовые шаги алгоритма всегда выполняются в нужном порядке.
+
+## 3. Диаграмма
+```mermaid
+classDiagram
+    class BaseEventPreparation {
+        <<abstract>>
+        +PrepareEvent(event: Event)
+        # CheckResources(event: Event)*
+        # PrepareSchedule(event: Event)*
+        # NotifyParticipants(event: Event)*
+        # GenerateReport(event: Event)*
+    }
+
+    class OnlineConferencePreparation {
+        # CheckResources(event: Event)
+        # PrepareSchedule(event: Event)
+        # NotifyParticipants(event: Event)
+        # GenerateReport(event: Event)
+    }
+
+    class OfflineConferencePreparation {
+        # CheckResources(event: Event)
+        # PrepareSchedule(event: Event)
+        # NotifyParticipants(event: Event)
+        # GenerateReport(event: Event)
+    }
+
+    BaseEventPreparation <|-- OnlineConferencePreparation
+    BaseEventPreparation <|-- OfflineConferencePreparation
+```
+
+## 4. Реализация на C#
+
+### 4.1 Абстрактный класс
+
+```csharp
+// Абстрактный класс с шаблонным методом
+public abstract class BaseConferencePreparation
+{
+    protected Conference Conference { get; private set; }
+
+    public void PrepareConference(Conference conference)
+    {
+        Conference = conference;
+        CheckResources();
+        PrepareSchedule();
+        NotifyParticipants();
+        GenerateReport();
+
+        Console.WriteLine($"Conference '{Conference.Title}' preparation completed.\n");
+    }
+
+    protected abstract void CheckResources();
+    protected abstract void PrepareSchedule();
+    protected abstract void NotifyParticipants();
+    protected abstract void GenerateReport();
+}
+```
+
+### 4.2 Конкретные реализации
+
+```csharp
+// Онлайн-конференция
+public class OnlineConferencePreparation : BaseConferencePreparation
+{
+    protected override void CheckResources()
+    {
+        // Проверяем серверы, стриминговые комнаты
+        if (!ServerManager.IsAvailable(Conference.RequiredServers))
+            throw new Exception("Not enough online servers!");
+        Console.WriteLine("Online servers available.");
+    }
+
+    protected override void PrepareSchedule()
+    {
+        // Формируем расписание докладов
+        Conference.Schedule = Conference.Talks
+            .OrderBy(t => t.StartTime)
+            .ToList();
+        Console.WriteLine("Online conference schedule prepared.");
+    }
+
+    protected override void NotifyParticipants()
+    {
+        foreach (var p in Conference.Participants)
+            EmailService.Send(p.Email, $"Your online conference '{Conference.Title}' schedule is ready!");
+        Console.WriteLine("All participants notified online.");
+    }
+
+    protected override void GenerateReport()
+    {
+        ReportService.GenerateOnlineReport(Conference);
+        Console.WriteLine("Online conference report generated.");
+    }
+}
+
+// Офлайн-конференция
+public class OfflineConferencePreparation : BaseConferencePreparation
+{
+    protected override void CheckResources()
+    {
+        // Проверяем физические залы, оборудование, кейтеринг
+        if (!VenueManager.AreRoomsAvailable(Conference.Rooms))
+            throw new Exception("Not enough rooms for offline conference!");
+        Console.WriteLine("All offline rooms and equipment are ready.");
+    }
+
+    protected override void PrepareSchedule()
+    {
+        // Распределяем доклады по залам и времени
+        Conference.Schedule = Conference.Talks
+            .OrderBy(t => t.StartTime)
+            .ToList();
+        Console.WriteLine("Offline conference schedule prepared.");
+    }
+
+    protected override void NotifyParticipants()
+    {
+        foreach (var p in Conference.Participants)
+            SMSService.Send(p.Phone, $"Reminder: your offline conference '{Conference.Title}' details are ready.");
+        Console.WriteLine("All participants notified offline.");
+    }
+
+    protected override void GenerateReport()
+    {
+        ReportService.GenerateOfflineReport(Conference);
+        Console.WriteLine("Offline conference report generated.");
+    }
+}
+```
+
+### 4.3 Клиентский код
+
+```csharp
+var onlineConf = new Conference
+{
+    Title = "Tech Online 2026",
+    Talks = new List<Talk> { new Talk("Cloud Computing", DateTime.Now.AddHours(1)) },
+    Participants = new List<Participant> { new Participant { Name="Alice", Email="alice@example.com" } }
+};
+var offlineConf = new Conference
+{
+    Title = "Tech Offline 2026",
+    Talks = new List<Talk> { new Talk("Microservices", DateTime.Now.AddHours(2)) },
+    Participants = new List<Participant> { new Participant { Name="Bob", Phone="111-222-333" } }
+};
+
+BaseConferencePreparation onlinePrep = new OnlineConferencePreparation();
+onlinePrep.PrepareConference(onlineConf);
+
+BaseConferencePreparation offlinePrep = new OfflineConferencePreparation();
+offlinePrep.PrepareConference(offlineConf);
+```
+
+
